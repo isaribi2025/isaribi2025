@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>漁火の会 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+    body {
+        font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background-color: #191B22;
+        color: rgba(255, 255, 255, 0.9);
+        min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background-color: #1E1E29;
+        border-bottom: 1px solid #2D303A;
+    }
+
+    .header-container {
+        max-width: 1152px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+
+    .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 4rem;
+    }
+
+    .header-left {
+        display: flex;
+        align-items: center;
+    }
+
+    .logo {
+        width: 2rem;
+        height: 2rem;
+        background-color: #6D7CFA;
+        border-radius: 50%;
+        margin-right: 0.75rem;
+    }
+
+    .site-title {
+        font-size: 1.25rem;
+        font-weight: 900;
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .nav {
+        display: none;
+        gap: 2rem;
+    }
+
+    .nav button {
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.875rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: color 150ms;
+    }
+
+    .nav button:hover {
+        color: white;
+    }
+
+    @media (min-width: 768px) {
+        .nav {
+            display: flex;
+        }
+    }
+
+    /* Hero Section */
+    .hero {
+        padding: 3rem 1.5rem 4rem;
+        text-align: center;
+        background-color: #191B22;
+    }
+
+    .hero-container {
+        max-width: 56rem;
+        margin: 0 auto;
+    }
+
+    .hero-title {
+        font-size: 2.25rem;
+        font-weight: 900;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.25rem;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 2rem;
+    }
+
+    .event-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+        margin-bottom: 3rem;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .info-icon {
+        width: 20px;
+        height: 20px;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .info-text {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .hero-description {
+        font-size: 1.125rem;
+        color: rgba(255, 255, 255, 0.6);
+        line-height: 1.75;
+        max-width: 48rem;
+        margin: 0 auto;
+    }
+
+    @media (min-width: 640px) {
+        .hero-title {
+            font-size: 3rem;
+        }
+        .hero-subtitle {
+            font-size: 1.5rem;
+        }
+        .event-info {
+            flex-direction: row;
+            justify-content: center;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .hero-title {
+            font-size: 3.75rem;
+        }
+    }
+
+    /* Booth Section */
+    .booths {
+        padding: 4rem 1.5rem;
+        background-color: #191B22;
+    }
+
+    .booths-container {
+        max-width: 1152px;
+        margin: 0 auto;
+    }
+
+    .section-title {
+        font-size: 1.875rem;
+        font-weight: 900;
+        color: rgba(255, 255, 255, 0.9);
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    /* Category Filter */
+    .filter-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+        margin-bottom: 3rem;
+    }
+
+    .filter-btn {
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 150ms;
+        background-color: transparent;
+        color: rgba(255, 255, 255, 0.7);
+        border: 1px solid #2D303A;
+    }
+
+    .filter-btn.active {
+        background-color: #6D7CFA;
+        color: #FFFFFF;
+        border: none;
+    }
+
+    .filter-btn:hover:not(.active) {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Booth Grid */
+    .booth-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+        .booth-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .booth-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    .booth-card {
+        background-color: #1E1E29;
+        border: 1px solid #2D303A;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        cursor: pointer;
+        transition: all 150ms;
+    }
+
+    .booth-card:hover {
+        transform: scale(1.05);
+        border-color: #6D7CFA;
+        box-shadow: 0 0 20px rgba(109, 124, 250, 0.1);
+    }
+
+    .booth-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 0.75rem;
+    }
+
+    .booth-category {
+        background-color: #6D7CFA;
+        color: #FFFFFF;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .booth-location {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .booth-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 0.5rem;
+    }
+
+    .booth-presenter {
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 0.75rem;
+    }
+
+    .booth-description {
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.75;
+        margin-bottom: 1rem;
+    }
+
+    .booth-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .booth-tag {
+        background-color: #2D303A;
+        color: rgba(255, 255, 255, 0.8);
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+    }
+
+    .arrow-icon {
+        width: 16px;
+        height: 16px;
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* News Section */
+    .news {
+        padding: 4rem 1.5rem;
+        background-color: #1E1E29;
+    }
+
+    .news-container {
+        max-width: 56rem;
+        margin: 0 auto;
+    }
+
+    .news-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .news-card {
+        background-color: #191B22;
+        border: 1px solid #2D303A;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        cursor: pointer;
+        transition: all 150ms;
+    }
+
+    .news-card:hover {
+        background-color: #1E1E29;
+        border-color: #3D3F49;
+    }
+
+    .news-header {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .news-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .news-category {
+        background-color: #6D7CFA;
+        color: #FFFFFF;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .news-date {
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .news-arrow {
+        width: 16px;
+        height: 16px;
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .news-title {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 0.5rem;
+    }
+
+    .news-excerpt {
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.75;
+    }
+
+    @media (min-width: 640px) {
+        .news-header {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .news-meta {
+            margin-bottom: 0;
+        }
+    }
+</style>
+
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="logo"></div>
+                    <h1 class="site-title">漁火の会 2025</h1>
+                </div>
+                <nav class="nav">
+                    <button>ホーム</button>
+                    <button>ブース一覧</button>
+                    <button>ニュース</button>
+                    <button>アクセス</button>
+                    <button>お問い合わせ</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-container">
+        <h1 class="hero-title">漁火の会</h1>
+        <p class="hero-subtitle">発表者と参加者が共に学び、交流する場</p>
+        <div class="event-info">
+            <div class="info-item">
+                <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <span class="info-text">2025年12月20日</span>
+            </div>
+            <div class="info-item">
+                <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span class="info-text">(開催時間)</span>
+            </div>
+           
+        </div>
+        <p class="hero-description">
+            各ブースでは、発表希望者が自身の興味のある分野について参加者に向けて発表を行います。
+            単なる発表にとどまらず、参加者との交流や体験活動も実施いたします。
+        </p>
+    </div>
+</section>
+
+<!-- Booth Section -->
+<section class="booths">
+    <div class="booths-container">
+        <h2 class="section-title">ブース一覧</h2>
+        
+        <!-- Category Filter -->
+        <div class="filter-container">
+            <button class="filter-btn active" onclick="filterBooths('全て', event)">全て</button>
+            <button class="filter-btn" onclick="filterBooths('技術', event)">技術</button>
+            <button class="filter-btn" onclick="filterBooths('文化', event)">文化</button>
+            <button class="filter-btn" onclick="filterBooths('科学', event)">科学</button>
+            <button class="filter-btn" onclick="filterBooths('アート', event)">アート</button>
+        </div>
+
+        <!-- Booth Grid -->
+        <div class="booth-grid" id="boothGrid"></div>
+    </div>
+</section>
+
+<!-- News Section -->
+<section class="news">
+    <div class="news-container">
+        <h2 class="section-title">News</h2>
+        <div class="news-list" id="newsList"></div>
+    </div>
+</section>
+
+<script>
+    // Booth data
+    const booths = [
+        {
+            id: 1,
+            title: "プログラミング体験",
+            presenter: "田中 太郎",
+            category: "技術",
+            description: "初心者向けのプログラミング体験。ゲーム作りを通して楽しく学ぼう！",
+            experienceType: "体験・実習",
+            location: "A-1"
+        },
+        {
+            id: 2,
+            title: "茶道の世界",
+            presenter: "佐藤 花子",
+            category: "文化",
+            description: "日本の伝統文化である茶道を体験。お茶とお菓子もご用意しています。",
+            experienceType: "体験・試食",
+            location: "B-2"
+        },
+        {
+            id: 3,
+            title: "宇宙への旅",
+            presenter: "山田 星子",
+            category: "科学",
+            description: "最新の宇宙探査技術について。VRで宇宙遊泳も体験できます！",
+            experienceType: "VR体験",
+            location: "C-3"
+        },
+        {
+            id: 4,
+            title: "手作りアクセサリー",
+            presenter: "鈴木 美咲",
+            category: "アート",
+            description: "オリジナルアクセサリーを一緒に作りましょう。材料はすべて用意済み。",
+            experienceType: "製作体験",
+            location: "D-1"
+        },
+        {
+            id: 5,
+            title: "ロボット工学入門",
+            presenter: "高橋 ロボ",
+            category: "技術",
+            description: "自作ロボットのデモンストレーション。簡単な操縦体験もできます。",
+            experienceType: "操縦体験",
+            location: "A-2"
+        },
+        {
+            id: 6,
+            title: "世界の料理紹介",
+            presenter: "国際交流部",
+            category: "文化",
+            description: "世界各国の料理文化を紹介。簡単な調理体験と試食も！",
+            experienceType: "調理・試食",
+            location: "B-3"
+        }
+    ];
+
+    // News data
+    const news = [
+        {
+            id: 1,
+            title: "漁火の会2025 開催決定！",
+            date: "2025-11-15",
+            category: "お知らせ",
+            excerpt: "今年も漁火の会を12月20日に開催いたします。多数のご参加をお待ちしています。"
+        },
+        {
+            id: 2,
+            title: "ブース参加者募集中",
+            date: "2025-11-10",
+            category: "募集",
+            excerpt: "発表・体験ブースの参加者を募集しています。申込み締切は11月30日です。"
+        },
+        {
+            id: 3,
+            title: "駐車場のご案内",
+            date: "2025-11-08",
+            category: "アクセス",
+            excerpt: "当日の駐車場利用についてご案内いたします。事前予約制となっております。"
+        },
+        {
+            id: 4,
+            title: "新型コロナ対策について",
+            date: "2025-11-05",
+            category: "重要",
+            excerpt: "感染防止対策を実施の上、開催いたします。マスク着用にご協力ください。"
+        }
+    ];
+
+    let currentCategory = '全て';
+
+    // Render booths
+    function renderBooths(category = '全て') {
+        const grid = document.getElementById('boothGrid');
+        const filtered = category === '全て' 
+            ? booths 
+            : booths.filter(b => b.category === category);
+        
+        grid.innerHTML = filtered.map(booth => `
+            <div class="booth-card" data-category="${booth.category}">
+                <div class="booth-header">
+                    <span class="booth-category">${booth.category}</span>
+                    <span class="booth-location">${booth.location}</span>
+                </div>
+                <h3 class="booth-title">${booth.title}</h3>
+                <p class="booth-presenter">発表者: ${booth.presenter}</p>
+                <p class="booth-description">${booth.description}</p>
+                <div class="booth-footer">
+                    <span class="booth-tag">${booth.experienceType}</span>
+                    <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Render news
+    function renderNews() {
+        const list = document.getElementById('newsList');
+        list.innerHTML = news.map(item => `
+            <div class="news-card">
+                <div class="news-header">
+                    <div class="news-meta">
+                        <span class="news-category">${item.category}</span>
+                        <span class="news-date">${item.date}</span>
+                    </div>
+                    <svg class="news-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </div>
+                <h3 class="news-title">${item.title}</h3>
+                <p class="news-excerpt">${item.excerpt}</p>
+            </div>
+        `).join('');
+    }
+
+    // Filter booths
+    function filterBooths(category, event) {
+        currentCategory = category;
+        
+        // Update button states
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        event.target.classList.add('active');
+        
+        // Re-render booths
+        renderBooths(category);
+    }
+
+    // Initial render
+    renderBooths();
+    renderNews();
+</script>
+
+</body>
+</html>
