@@ -17,41 +17,9 @@
 }
 
 body {
-  font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background-image: url('IMG_8882.webp');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  background-attachment: scroll; /* スマホでも確実に表示される */
-  color: rgba(0, 0, 0, 0.9);
-  min-height: 100vh;
-}
-
-/* オーバーレイをかけて文字を見やすくする */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  z-index: -1;
-}
-
-/* スマホ対応 */
-@media (max-width: 640px) {
-  body {
-    background-size: cover;
-    background-position: center top;
-  }
-}
-
-/* タブレット対応 */
-@media (min-width: 641px) and (max-width: 1023px) {
-  body {
-    background-position: center;
-  }
+    font-family: "游明朝", "Yu Mincho", "Hiragino Mincho ProN", "MS PMincho", serif;
+    color: rgba(0, 0, 0, 0.9);
+    min-height: 100vh;
 }
 
 /* ===============================
@@ -128,7 +96,11 @@ header {
 .hero {
     padding: 3rem 1.5rem 4rem;
     text-align: center;
-    background-color: #F8F9FA;
+    background: 
+        linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)),
+        url('背景画像のURLをここに');
+    background-size: cover;
+    background-position: center;
 }
 
 .hero-container {
@@ -145,7 +117,7 @@ header {
 }
 
 .hero-subtitle {
-    font-size: 1.25rem;
+    font-size: 1.10rem;
     color: rgba(0, 0, 0, 0.7);
     margin-bottom: 2rem;
 }
@@ -201,6 +173,60 @@ header {
     .hero-title {
         font-size: 3.75rem;
     }
+}
+>
+
+/* ===============================
+   Schedule Section
+================================= */
+.schedule {
+  padding: 4rem 1.5rem;
+  background-color: #FFFFFF;
+}
+
+.schedule-container {
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #F8F9FA;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.schedule-table th,
+.schedule-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.schedule-table th {
+  background-color: #4B6BFF;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.schedule-table td {
+  font-size: 0.95rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.schedule-table tr:last-child td {
+  border-bottom: none;
+}
+
+@media (max-width: 640px) {
+  .schedule-table th,
+  .schedule-table td {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
 }
 
 /* ===============================
@@ -318,7 +344,7 @@ header {
     margin-bottom: 0.5rem;
 }
 
-.booth-presenter {
+.booth-presenterLocation {
     font-size: 0.875rem;
     color: rgba(0, 0, 0, 0.6);
     margin-bottom: 0.75rem;
@@ -476,15 +502,11 @@ header {
                     <line x1="8" y1="2" x2="8" y2="6"></line>
                     <line x1="3" y1="10" x2="21" y2="10"></line>
                 </svg>
+<span class="info-text">開催日</span>
+</div>
                 <span class="info-text">2025年12月20日</span>
             </div>
-            <div class="info-item">
-                <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-                <span class="info-text">(開催時間)</span>
-            </div>
+            
            
         </div>
         <p class="hero-description">
@@ -500,6 +522,44 @@ header {
         <h2 class="section-title">News</h2>
         <div class="news-list" id="newsList"></div>
     </div>
+</section>
+
+<!-- Schedule Section -->
+<section class="schedule">
+  <div class="schedule-container">
+    <h2 class="section-title">スケジュール</h2>
+
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>時間</th>
+          <th>内容</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>09:00 - 09:30</td>
+          <td>開会式</td>
+        </tr>
+        <tr>
+          <td>09:30 - 12:00</td>
+          <td>ブース発表（前半）</td>
+        </tr>
+        <tr>
+          <td>12:00 - 13:00</td>
+          <td>昼休憩</td>
+        </tr>
+        <tr>
+          <td>13:00 - 15:00</td>
+          <td>ブース発表（後半）</td>
+        </tr>
+        <tr>
+          <td>15:30 - 16:00</td>
+          <td>閉会式・表彰</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </section>
 
 <!-- Booth Section -->
@@ -529,7 +589,7 @@ header {
         {
             id: 1,
             title: "プログラミング体験",
-            presenter: "田中 太郎",
+            presenterLocation: "北館4階 5-1",
             category: "技術",
             description: "初心者向けのプログラミング体験。ゲーム作りを通して楽しく学ぼう！",
             experienceType: "体験・実習",
@@ -538,7 +598,7 @@ header {
         {
             id: 2,
             title: "茶道の世界",
-            presenter: "佐藤 花子",
+            presenterLocation: "北館4階 5-1",
             category: "文化",
             description: "日本の伝統文化である茶道を体験。お茶とお菓子もご用意しています。",
             experienceType: "体験・試食",
@@ -547,7 +607,7 @@ header {
         {
             id: 3,
             title: "宇宙への旅",
-            presenter: "山田 星子",
+            presenterLocation: "北館4階 5-1",
             category: "科学",
             description: "最新の宇宙探査技術について。VRで宇宙遊泳も体験できます！",
             experienceType: "VR体験",
@@ -556,7 +616,7 @@ header {
         {
             id: 4,
             title: "手作りアクセサリー",
-            presenter: "鈴木 美咲",
+            presenterLocation: "北館4階 5-1",
             category: "アート",
             description: "オリジナルアクセサリーを一緒に作りましょう。材料はすべて用意済み。",
             experienceType: "製作体験",
@@ -565,7 +625,7 @@ header {
         {
             id: 5,
             title: "ロボット工学入門",
-            presenter: "高橋 ロボ",
+            presenterLocation: "北館4階 5-1",
             category: "技術",
             description: "自作ロボットのデモンストレーション。簡単な操縦体験もできます。",
             experienceType: "操縦体験",
@@ -574,7 +634,7 @@ header {
         {
             id: 6,
             title: "世界の料理紹介",
-            presenter: "国際交流部",
+            presenterLocation: "北館4階 5-1",
             category: "文化",
             description: "世界各国の料理文化を紹介。簡単な調理体験と試食も！",
             experienceType: "調理・試食",
@@ -630,7 +690,7 @@ header {
                     <span class="booth-location">${booth.location}</span>
                 </div>
                 <h3 class="booth-title">${booth.title}</h3>
-                <p class="booth-presenter">発表者: ${booth.presenter}</p>
+                <p class="booth-presenterLocation">場所: ${booth.presenterLocation}</p>
                 <p class="booth-description">${booth.description}</p>
                 <div class="booth-footer">
                     <span class="booth-tag">${booth.experienceType}</span>
