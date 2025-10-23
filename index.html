@@ -89,6 +89,41 @@ header {
         display: flex;
     }
 }
+/* スムーススクロール */
+html {
+  scroll-behavior: smooth;
+}
+
+/* nav の a スタイル */
+.nav-link {
+  text-decoration: none;
+  background: none;
+  border: none;
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 150ms, opacity 150ms;
+  padding: 0.25rem;
+}
+
+.nav-link:hover {
+  color: #000;
+}
+
+/* 現在のセクション（アクティブ） */
+.nav-link.active {
+  color: #4B6BFF;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* 小さい画面では .nav は非表示（既存ルールと合うように） */
+@media (max-width: 767px) {
+  .nav {
+    display: none;
+  }
+}
 
 /* ===============================
    Hero Section
@@ -466,6 +501,11 @@ header {
         margin-bottom: 0;
     }
 }
+
+.news {
+    padding: 4rem 1.5rem;
+    background-color: #F8F9FA;
+}
 </style>
 
 </head>
@@ -477,17 +517,19 @@ header {
                 <div class="header-left">
                     <div class="logo"></div>
                     <h1 class="site-title">漁火の会 2025</h1>
+<nav class="nav" aria-label="メインナビゲーション">
+  <a class="nav-link" href="#news">News</a>
+  <a class="nav-link" href="#schedule">スケジュール</a>
+  <a class="nav-link" href="#booths">ブース一覧</a>
+  <a class="nav-link" href="#sns">SNS</a>
+</nav>
                 </div>
-                <nav class="nav">
-                    <button>ホーム</button>
-                    <button>ブース一覧</button>
-                    <button>ニュース</button>
-                    <button>アクセス</button>
-                    <button>お問い合わせ</button>
-                </nav>
+                
             </div>
         </div>
     </header>
+
+
 
 <!-- Hero Section -->
 <section class="hero">
@@ -589,6 +631,13 @@ header {
     </div>
 </section>
 
+<!-- Booth Section -->
+<section class="sns">
+    <div class="news-container">
+        <h2 class="section-title">SNS</h2>
+     <p>https://www.instagram.com/isarib_i.ichikawa2025?igsh=dHlwemIwc3NnM2R3</p>
+    </div>
+</section>
 
 
 <script>
@@ -657,7 +706,7 @@ header {
             title: "漁火の会2025 開催決定！",
             date: "2025-11-15",
             category: "お知らせ",
-            excerpt: "今年も漁火の会を12月20日に開催いたします。多数のご参加をお待ちしています。"
+            excerpt: "漁火の会2025を12月20日に開催いたします。多数のご参加をお待ちしています。"
         },
         {
             id: 2,
@@ -749,6 +798,32 @@ header {
     // Initial render
     renderBooths();
     renderNews();
+
+  // --- ナビのアクティブ切替 ---
+  const navLinks = document.querySelectorAll('.nav-link');
+  const sections = Array.from(document.querySelectorAll('section[id]'));
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const id = entry.target.getAttribute('id');
+      const link = document.querySelector(`.nav-link[href="#${id}"]`);
+      if (link) {
+        if (entry.isIntersecting) {
+          navLinks.forEach(n => n.classList.remove('active'));
+          link.classList.add('active');
+        }
+      }
+    });
+  }, {
+    root: null,
+    rootMargin: '0px 0px -40% 0px', // セクションが画面上部から40%下に入ったらアクティブに
+    threshold: 0
+  });
+
+  sections.forEach(sec => observer.observe(sec));
+
+  // optional: ナビをクリックしたときにフォーカスを外す（見た目調整）
+  navLinks.forEach(l => l.addEventListener('click', () => l.blur()));
 </script>
 
 </body>
