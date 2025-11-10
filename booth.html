@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ブース詳細</title>
+
+  <style>
+    body {
+      font-family: system-ui, "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+      padding: 2rem;
+      background: #fff;
+      color: #111;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    a.back {
+      display: inline-block;
+      margin-bottom: 1rem;
+      color: #4B6BFF;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .card {
+      border: 1px solid #E6E9F2;
+      border-radius: 8px;
+      padding: 1.25rem;
+      box-shadow: 0 6px 18px rgba(16, 24, 40, 0.03);
+    }
+
+    .title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .meta {
+      color: #64748B;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+
+    .desc {
+      line-height: 1.8;
+      color: #374151;
+    }
+
+    .notfound {
+      color: #B91C1C;
+      font-weight: 700;
+      padding: 1rem 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <a class="back" href="Fishingfire_1220_white.html">&larr; 戻る</a>
+
+    <div id="content" class="card">
+      <div id="loading">読み込み中…</div>
+    </div>
+  </div>
+
+  <script>
+    // --- 同じデータをここに入れておく（メインページと一致させる） ---
+    const booths = [
+            {
+                id: 1,
+                title: "初心者向けWSC英語ディベート体験",
+                presenterLocation: "未定",
+                category: "ディベート",
+                description: "言語と論理で勝負をつかむ英語ディベートを私達と体験してみませんか！？"
+            },
+
+            {
+                id: 2,
+                title: "文字で、遊ぼう！～平安lifeの楽しみ～",
+                presenterLocation: "未定",
+                category: "歴史/文化",
+                description: "平安時代の文字や遊びを、平安ヲタクが紹介！歴史好きとつながろう！"
+            },
+            {
+                id: 3,
+                title: "性×幸せ=ウェルビーイング！？",
+                presenterLocation: "未定",
+                category: "性/人間関係",
+                description: "性教育を通して自分らしく生きる明日を探しに行こう！"
+            },
+            {
+                id: 4,
+                title: "ビブリオバトル体験～知らない本に出会おう～",
+                presenterLocation: "未定",
+                category: "ビブリオバトル",
+                description: "話して、聞いて、本でつながる交流体験を一からやってみませんか！"
+                
+            },
+            {
+                id: 5,
+                title: "地熱発電のイマ、コレカラ。",
+                presenterLocation: "未定",
+                category: "再生可能エネルギー",
+                description: "一緒に日本のエネルギーの未来を考えてみませんか？"
+            },
+            {
+                id: 6,
+                title: "1日アフリカ代表になってみよう！",
+                presenterLocation: "未定",
+                category: "文化",
+                description: "異なる国を担当して、アフリカの社会課題について一緒に議論しよう！"
+            },
+            {
+                id: 7,
+                title: "ホームステイってこんな毎日！",
+                presenterLocation: "未定",
+                category: "留学",
+                description: "私たちの実体験を踏まえてホームステイの魅力や失敗談をお話します！"
+            },
+				{
+                id: 8,
+                title: "カスタマイズ留学～自分なりの留学への第一歩～",
+                presenterLocation: "未定",
+                category: "思想",
+                description: "留学は想像よりも堅くない！私たちと一緒に留学をカスタマイズしてみよう！"
+            },
+				{
+                id: 9,
+                title: "DIPLOMACY in ACTION",
+                presenterLocation: "未定",
+                category: "模擬国連",
+                description: "君も各国代表に！模擬国連ブースで国際問題を体験しよう！"
+            }
+
+        ];
+
+    // URLの ?id= を取得
+    function getIdFromQuery() {
+      const q = new URLSearchParams(window.location.search);
+      const s = q.get('id');
+      return s ? Number(s) : null;
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, m => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[m]));
+    }
+
+    (function () {
+      const id = getIdFromQuery();
+      const content = document.getElementById('content');
+
+      if (!id) {
+        content.innerHTML = '<div class="notfound">無効なIDです。URLに <code>?id=番号</code> を付けてください。</div>';
+        return;
+      }
+
+      const b = booths.find(x => x.id === id);
+      if (!b) {
+        content.innerHTML = '<div class="notfound">該当するブースが見つかりません。</div>';
+        return;
+      }
+
+      content.innerHTML = `
+        <div class="title">${escapeHtml(b.title)}</div>
+        <div class="meta">
+          カテゴリ: ${escapeHtml(b.category)} ・ 場所: ${escapeHtml(b.location)} ・ 発表場所: ${escapeHtml(b.presenterLocation)}
+        </div>
+        <div class="desc">${escapeHtml(b.description)}</div>
+        <hr style="margin:1rem 0;border:none;border-top:1px solid #EEF2FF;">
+        <div style="color:#475569;font-size:0.95rem;">
+          体験タイプ: <strong>${escapeHtml(b.experienceType)}</strong>
+        </div>
+      `;
+    })();
+  </script>
+</body>
+</html>
