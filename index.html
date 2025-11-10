@@ -351,6 +351,26 @@
     border-color: #4B6BFF;
     box-shadow: 0 0 10px rgba(75, 107, 255, 0.1);
 		  }
+		
+		/* --- カードのホバーでふわっと浮くアニメーション --- */
+.booth-card,
+.news-card {
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+  will-change: transform, box-shadow;
+}
+
+.booth-card-link:hover .booth-card,
+.news-card-link:hover .news-card {
+  transform: translateY(-6px) scale(1.01); /* 少し上に持ち上げる */
+  box-shadow: 0 12px 24px rgba(16, 24, 40, 0.08);
+}
+
+/* ユーザーがキーボードでフォーカスしたときも見えるように */
+.booth-card-link:focus .booth-card,
+.news-card-link:focus .news-card {
+  outline: 3px solid rgba(75,107,255,0.12);
+  transform: translateY(-6px) scale(1.01);
+}
 
         .booth-header {
             display: flex;
@@ -611,7 +631,7 @@
 
                 <tbody>
                     <tr>
-                        <td>09:00 - 09:45</td>
+                        <td>09:00</td>
                         <td>受付</td>
                     </tr>
 
@@ -641,8 +661,8 @@
                     </tr>
 
                     <tr>
-                        <td>16:40 - 17:00</td>
-                        <td>外部生完全退館</td>
+                        <td>16:45</td>
+                        <td>解散</td>
                     </tr>
                 </tbody>
             </table>
@@ -653,15 +673,6 @@
     <section class="booths" id="booths">
         <div class="booths-container">
             <h2 class="section-title">ブース一覧</h2>
-
-            <div class="filter-container">
-                <button class="filter-btn active" onclick="filterBooths('全て', event)">全て</button>
-                <button class="filter-btn" onclick="filterBooths('技術', event)">技術</button>
-                <button class="filter-btn" onclick="filterBooths('文化', event)">文化</button>
-                <button class="filter-btn" onclick="filterBooths('科学', event)">科学</button>
-                <button class="filter-btn" onclick="filterBooths('アート', event)">アート</button>
-                <button class="filter-btn" onclick="filterBooths('思想', event)">思想</button>
-            </div>
 
             <div class="booth-grid" id="boothGrid"></div>
         </div>
@@ -682,67 +693,70 @@
         const booths = [
             {
                 id: 1,
-                title: "プログラミング体験",
-                presenterLocation: "北館4階 5-1",
-                category: "技術",
-                description: "初心者向けのプログラミング体験。ゲーム作りを通して楽しく学ぼう！",
-                experienceType: "体験・実習",
-                location: "A-1"
+                title: "初心者向けWSC英語ディベート体験",
+                presenterLocation: "未定",
+                category: "ディベート",
+                description: "言語と論理で勝負をつかむ英語ディベートを私達と体験してみませんか！？"
             },
+
             {
                 id: 2,
-                title: "茶道の世界",
-                presenterLocation: "北館4階 5-1",
-                category: "文化",
-                description: "日本の伝統文化である茶道を体験。お茶とお菓子もご用意しています。",
-                experienceType: "体験・試食",
-                location: "B-2"
+                title: "文字で、遊ぼう！～平安lifeの楽しみ～",
+                presenterLocation: "未定",
+                category: "歴史/文化",
+                description: "平安時代の文字や遊びを、平安ヲタクが紹介！歴史好きとつながろう！"
             },
             {
                 id: 3,
-                title: "宇宙への旅",
-                presenterLocation: "北館4階 5-1",
-                category: "科学",
-                description: "最新の宇宙探査技術について。VRで宇宙遊泳も体験できます！",
-                experienceType: "VR体験",
-                location: "C-3"
+                title: "性×幸せ=ウェルビーイング！？",
+                presenterLocation: "未定",
+                category: "性/人間関係",
+                description: "性教育を通して自分らしく生きる明日を探しに行こう！"
             },
             {
                 id: 4,
-                title: "手作りアクセサリー",
-                presenterLocation: "北館4階 5-1",
-                category: "アート",
-                description: "オリジナルアクセサリーを一緒に作りましょう。材料はすべて用意済み。",
-                experienceType: "製作体験",
-                location: "D-1"
+                title: "ビブリオバトル体験～知らない本に出会おう～",
+                presenterLocation: "未定",
+                category: "ビブリオバトル",
+                description: "話して、聞いて、本でつながる交流体験を一からやってみませんか！"
+                
             },
             {
                 id: 5,
-                title: "ロボット工学入門",
-                presenterLocation: "北館4階 5-1",
-                category: "技術",
-                description: "自作ロボットのデモンストレーション。簡単な操縦体験もできます。",
-                experienceType: "操縦体験",
-                location: "A-2"
+                title: "地熱発電のイマ、コレカラ。",
+                presenterLocation: "未定",
+                category: "再生可能エネルギー",
+                description: "一緒に日本のエネルギーの未来を考えてみませんか？"
             },
             {
                 id: 6,
-                title: "世界の料理紹介",
-                presenterLocation: "北館4階 5-1",
+                title: "1日アフリカ代表になってみよう！",
+                presenterLocation: "未定",
                 category: "文化",
-                description: "世界各国の料理文化を紹介。簡単な調理体験と試食も！",
-                experienceType: "調理・試食",
-                location: "B-3"
+                description: "異なる国を担当して、アフリカの社会課題について一緒に議論しよう！"
             },
             {
                 id: 7,
-                title: "旧約聖書を読もう",
-                presenterLocation: "西アジア メッカ",
+                title: "ホームステイってこんな毎日！",
+                presenterLocation: "未定",
+                category: "留学",
+                description: "私たちの実体験を踏まえてホームステイの魅力や失敗談をお話します！"
+            },
+				{
+                id: 8,
+                title: "カスタマイズ留学～自分なりの留学への第一歩～",
+                presenterLocation: "未定",
                 category: "思想",
-                description: "日本人に馴染みのない旧約聖書を読むことで異文化を感じよう！",
-                experienceType: "宗教・読書",
-                location: "B-4"
+                description: "留学は想像よりも堅くない！私たちと一緒に留学をカスタマイズしてみよう！"
+            },
+				{
+                id: 9,
+                title: "DIPLOMACY in ACTION",
+                presenterLocation: "未定",
+                category: "模擬国連",
+                description: "君も各国代表に！模擬国連ブースで国際問題を体験しよう！"
             }
+
         ];
 
         // News data
@@ -789,16 +803,12 @@
             <div class="booth-card" data-category="${booth.category}">
                 <div class="booth-header">
                     <span class="booth-category">${booth.category}</span>
-                    <span class="booth-location">${booth.location}</span>
                 </div>
 
                 <h3 class="booth-title">${booth.title}</h3>
                 <p class="booth-presenterLocation">場所: ${booth.presenterLocation}</p>
                 <p class="booth-description">${booth.description}</p>
 
-                <div class="booth-footer">
-                    <span class="booth-tag">${booth.experienceType}</span>
-                </div>
             </div>
         </a>
     `).join('');
