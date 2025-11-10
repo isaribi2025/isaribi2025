@@ -15,6 +15,12 @@
     padding: 0;
     box-sizing: border-box;
 }
+/* 見出しをゴシック体に変更 */
+
+.hero-title,
+.section-title {
+  font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+}
 
 body {
     font-family: "游明朝", "Yu Mincho", "Hiragino Mincho ProN", "MS PMincho", serif;
@@ -81,7 +87,6 @@ header {
     background: none;
     border: none;
     color: rgba(0, 0, 0, 0.7);
-    font-family: "游明朝", "Yu Mincho", "Hiragino Mincho ProN", "MS PMincho", serif;
     font-size: 0.875rem;
     font-weight: 600;
     cursor: pointer;
@@ -511,6 +516,10 @@ html {
     }
 }
 
+/* ===============================
+   SNS Section
+================================= */
+
 .sns {
     padding: 4rem 1.5rem;
     background-color: #F8F9FA;
@@ -580,7 +589,7 @@ html {
 <section class="schedule" id="schedule">
   <div class="schedule-container">
     <h2 class="section-title">
-スケジュール</h2>
+当日スケジュール</h2>
 
     <table class="schedule-table">
       <thead>
@@ -634,6 +643,7 @@ html {
             <button class="filter-btn" onclick="filterBooths('文化', event)">文化</button>
             <button class="filter-btn" onclick="filterBooths('科学', event)">科学</button>
             <button class="filter-btn" onclick="filterBooths('アート', event)">アート</button>
+				<button class="filter-btn" onclick="filterBooths('思想', event)">思想</button>
         </div>
 
         <!-- Booth Grid -->
