@@ -339,38 +339,38 @@
             box-shadow: 0 0 10px rgba(75, 107, 255, 0.1);
         }
 
-/* カード全体をクリック可能にするためのリンク設定 */
-.booth-card-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
+		/* カード全体をクリック可能にするためのリンク設定 */
+		.booth-card-link {
+    		text-decoration: none;
+    		color: inherit;
+    		display: block;
+		}
 
-		  .booth-card-link:hover .booth-card {
-    transform: scale(1.03);
-    border-color: #4B6BFF;
-    box-shadow: 0 0 10px rgba(75, 107, 255, 0.1);
-		  }
+		.booth-card-link:hover .booth-card {
+			transform: scale(1.03);
+			border-color: #4B6BFF;
+			box-shadow: 0 0 10px rgba(75, 107, 255, 0.1);
+		}
 		
 		/* --- カードのホバーでふわっと浮くアニメーション --- */
-.booth-card,
-.news-card {
-  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
-  will-change: transform, box-shadow;
-}
+		.booth-card,
+        .news-card {
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+            will-change: transform, box-shadow;
+		}
 
-.booth-card-link:hover .booth-card,
-.news-card-link:hover .news-card {
-  transform: translateY(-6px) scale(1.01); /* 少し上に持ち上げる */
-  box-shadow: 0 12px 24px rgba(16, 24, 40, 0.08);
-}
+		.booth-card-link:hover .booth-card,
+        .news-card-link:hover .news-card {
+            transform: translateY(-6px) scale(1.01); /* 少し上に持ち上げる */
+            box-shadow: 0 12px 24px rgba(16, 24, 40, 0.08);
+        }
 
-/* ユーザーがキーボードでフォーカスしたときも見えるように */
-.booth-card-link:focus .booth-card,
-.news-card-link:focus .news-card {
-  outline: 3px solid rgba(75,107,255,0.12);
-  transform: translateY(-6px) scale(1.01);
-}
+		/* ユーザーがキーボードでフォーカスしたときも見えるように */
+        .booth-card-link:focus .booth-card,
+        .news-card-link:focus .news-card {
+            outline: 3px solid rgba(75,107,255,0.12);
+            transform: translateY(-6px) scale(1.01);
+        }
 
         .booth-header {
             display: flex;
@@ -477,19 +477,19 @@
             border-color: #D0D8FF;
         }
 
-/* ニュースカード全体をクリック可能にする */
-		  .news-card-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
+		/* ニュースカード全体をクリック可能にする */
+        .news-card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
 		   }
 
 		  .news-card-link:hover .news-card {
-    background-color: #F1F3FF;
-    border-color: #D0D8FF;
-    transform: scale(1.02);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-    box-shadow: 0 0 8px rgba(75, 107, 255, 0.1);
+            background-color: #F1F3FF;
+            border-color: #D0D8FF;
+            transform: scale(1.02);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            box-shadow: 0 0 8px rgba(75, 107, 255, 0.1);
 		   }
 
         .news-header {
@@ -795,45 +795,42 @@
 
         // Render booths - 矢印をリンクにしました（仮URL: booth.html?id=...）
         function renderBooths(category = '全て') {
-    const grid = document.getElementById('boothGrid');
-    const filtered = category === '全て' ? booths : booths.filter(b => b.category === category);
-
-    grid.innerHTML = filtered.map(booth => `
-        <a href="booth.html?id=${booth.id}" class="booth-card-link">
-            <div class="booth-card" data-category="${booth.category}">
+            const grid = document.getElementById('boothGrid');
+            const filtered = category === '全て' ? booths : booths.filter(b => b.category === category);
+            grid.innerHTML = filtered.map(booth => `
+                <a href="booth.html?id=${booth.id}" class="booth-card-link">
+                <div class="booth-card" data-category="${booth.category}">
                 <div class="booth-header">
                     <span class="booth-category">${booth.category}</span>
                 </div>
-
                 <h3 class="booth-title">${booth.title}</h3>
                 <p class="booth-presenterLocation">場所: ${booth.presenterLocation}</p>
                 <p class="booth-description">${booth.description}</p>
 
             </div>
         </a>
-    `).join('');
-}
+        `).join('');
+        }
 
         // Render news - 矢印をリンクにしました（仮URL: news.html?id=...）
         function renderNews() {
-    const list = document.getElementById('newsList');
-
-    list.innerHTML = news.map(item => `
-        <a href="news.html?id=${item.id}" class="news-card-link">
-            <div class="news-card">
-                <div class="news-header">
-                    <div class="news-meta">
-                        <span class="news-category">${item.category}</span>
-                        <span class="news-date">${item.date}</span>
-                    </div>
-                </div>
-
-                <h3 class="news-title">${item.title}</h3>
-                <p class="news-excerpt">${item.excerpt}</p>
-            </div>
-        </a>
-    `).join('');
-}
+            const list = document.getElementById('newsList');
+            
+            list.innerHTML = news.map(item => `
+                <a href="news.html?id=${item.id}" class="news-card-link">
+                	<div class="news-card">
+                		<div class="news-header">
+                    		<div class="news-meta">
+                        		<span class="news-category">${item.category}</span>
+                            	<span class="news-date">${item.date}</span>
+                        	</div>
+                		</div>
+						<h3 class="news-title">${item.title}</h3>
+                    	<p class="news-excerpt">${item.excerpt}</p>
+            		</div>
+                </a>
+                `).join('');
+        }
 
         // Filter booths
         function filterBooths(category, event) {
