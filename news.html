@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ニュース詳細</title>
+
+  <style>
+    body {
+      font-family: system-ui, "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+      padding: 2rem;
+      background: #fff;
+      color: #111;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    a.back {
+      display: inline-block;
+      margin-bottom: 1rem;
+      color: #4B6BFF;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .card {
+      border: 1px solid #E6E9F2;
+      border-radius: 8px;
+      padding: 1.25rem;
+      box-shadow: 0 6px 18px rgba(16, 24, 40, 0.03);
+    }
+
+    .title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .meta {
+      color: #64748B;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+
+    .desc {
+      line-height: 1.8;
+      color: #374151;
+    }
+
+    .notfound {
+      color: #B91C1C;
+      font-weight: 700;
+      padding: 1rem 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <a class="back" href="Fishingfire_1220_white.html">&larr; 戻る</a>
+
+    <div id="content" class="card">
+      <div id="loading">読み込み中…</div>
+    </div>
+  </div>
+
+  <script>
+    const news = [
+      { id: 1, title: "漁火の会2025 開催決定！", date: "2025-11-15", category: "お知らせ", excerpt: "漁火の会2025を12月20日に開催いたします。多数のご参加をお待ちしています。" },
+      { id: 2, title: "ブース参加者募集中", date: "2025-11-10", category: "募集", excerpt: "発表・体験ブースの参加者を募集しています。申込み締切は11月30日です。" },
+      { id: 3, title: "駐車場のご案内", date: "2025-11-08", category: "アクセス", excerpt: "当日の駐車場利用についてご案内いたします。事前予約制となっております。" },
+      { id: 4, title: "新型コロナ対策について", date: "2025-11-05", category: "重要", excerpt: "感染防止対策を実施の上、開催いたします。マスク着用にご協力ください。" }
+    ];
+
+    function getIdFromQuery() {
+      const q = new URLSearchParams(window.location.search);
+      const s = q.get('id');
+      return s ? Number(s) : null;
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, m => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[m]));
+    }
+
+    (function () {
+      const id = getIdFromQuery();
+      const content = document.getElementById('content');
+
+      if (!id) {
+        content.innerHTML = '<div class="notfound">無効なIDです。URLに <code>?id=番号</code> を付けてください。</div>';
+        return;
+      }
+
+      const n = news.find(x => x.id === id);
+      if (!n) {
+        content.innerHTML = '<div class="notfound">該当するニュースが見つかりません。</div>';
+        return;
+      }
+
+      content.innerHTML = `
+        <div class="title">${escapeHtml(n.title)}</div>
+        <div class="meta">
+          カテゴリ: ${escapeHtml(n.category)} ・ 日付: ${escapeHtml(n.date)}
+        </div>
+        <div class="desc">${escapeHtml(n.excerpt)}</div>
+      `;
+    })();
+  </script>
+</body>
+</html>
