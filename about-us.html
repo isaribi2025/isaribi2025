@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ABOUT US - 漁火の会 2025</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* === same styles as index.html (kept consistent) === */
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family: "游明朝", "Yu Mincho", "Hiragino Mincho ProN", "MS PMincho", serif; color: rgba(0,0,0,0.9); min-height:100vh; }
+        a { color: inherit; text-decoration: none; }
+
+        header { position: sticky; top:0; z-index:50; background:#fff; border-bottom:1px solid #E0E0E0; }
+        .header-container { max-width:1152px; margin:0 auto; padding:0 1.5rem; }
+        .header-content { display:flex; align-items:center; justify-content:space-between; height:4rem; }
+        .header-left { display:flex; align-items:center; }
+        .logo { width:2.2rem; height:2.2rem; border-radius:50%; margin-right:0.75rem; background-color:#4B6BFF; background-image: url('a5a5d45f8f1ba963.png'); background-size:cover; background-position:center; background-repeat:no-repeat; }
+        .site-title { font-size:1.25rem; font-weight:700; color:#000; }
+
+        .hamburger { display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; background:none; border:none; cursor:pointer; }
+        .hamburger .bar { width:20px; height:2px; background:#111; display:block; position:relative; }
+        .hamburger .bar::before, .hamburger .bar::after { content:""; position:absolute; left:0; right:0; height:2px; background:#111; transition: transform 180ms ease, top 180ms ease, opacity 180ms ease; }
+        .hamburger .bar::before { top:-6px; }
+        .hamburger .bar::after { top:6px; }
+
+        .drawer { position:fixed; top:0; right:-320px; width:280px; height:100vh; background:#fff; box-shadow:-10px 0 30px rgba(16,24,40,0.08); transition:right 220ms ease; z-index:200; padding:1.5rem; display:flex; flex-direction:column; gap:0.5rem; }
+        .drawer.open { right:0; }
+        .drawer a { padding:0.75rem 0.5rem; font-weight:700; font-size:1rem; border-radius:6px; display:block; color:rgba(0,0,0,0.85); }
+        .drawer a:hover { background: rgba(75,107,255,0.06); color: #4B6BFF; }
+        .drawer-close { margin-left:auto; background:none; border:none; font-size:1.1rem; cursor:pointer; padding:0.25rem; }
+
+        .main-nav { display:none; gap:1.5rem; align-items:center; }
+        .main-nav a { display:inline-block; font-weight:700; font-size:0.95rem; padding:0.25rem 0.4rem; white-space:nowrap; letter-spacing:0.02em; }
+        .main-nav a:hover { color:#4B6BFF; }
+        @media (min-width:768px) { .hamburger{display:none;} .drawer{display:none;} .main-nav{display:flex; gap:2rem;} }
+
+        .hero { padding:3rem 1.5rem 3rem; text-align:center; background:linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)); }
+        .hero-container { max-width:56rem; margin:0 auto; }
+        .hero-title { font-size:2.25rem; font-weight:900; margin-bottom:1rem; }
+        .hero-subtitle { font-size:1.10rem; color: rgba(0,0,0,0.7); margin-bottom:1.25rem; }
+        .hero-description { font-size:1.125rem; color: rgba(0,0,0,0.7); line-height:1.75; max-width:48rem; margin:0 auto; }
+
+        .content { max-width:1152px; margin:2rem auto; padding:0 1.5rem 4rem; }
+        .section-title { font-size:1.875rem; font-weight:900; color: rgba(0,0,0,0.9); text-align:left; margin-bottom:1rem; }
+        .card { background:#fff; border:1px solid #EAEAEA; border-radius:8px; padding:1.25rem; margin-bottom:1rem; box-shadow:0 0 8px rgba(0,0,0,0.03); line-height:1.9; }
+        .two-column { display:grid; grid-template-columns:1fr; gap:1.25rem; }
+        @media(min-width:900px){ .two-column { grid-template-columns: 1fr 420px; } }
+        .muted { color: rgba(0,0,0,0.6); font-size:0.95rem; }
+
+        footer { padding:2rem 1.5rem; border-top:1px solid #EAEAEA; background:#fff; text-align:center; color: rgba(0,0,0,0.6); }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="logo" aria-hidden="true"></div>
+                    <a class="site-title" href="index.html">漁火の会 2025</a>
+                </div>
+
+                <nav class="main-nav" aria-label="グローバルナビ">
+                    <a href="index.html">HOME</a>
+                    <a href="about-us.html">ABOUT US</a>
+                    <a href="about-mascot.html">ABOUT MASCOT</a>
+                    <a href="access.html">ACCESS</a>
+                </nav>
+
+                <button class="hamburger" id="hamburger" aria-controls="site-drawer" aria-expanded="false" aria-label="メニューを開く">
+                    <span class="bar" aria-hidden="true"></span>
+                </button>
+
+                <aside id="site-drawer" class="drawer" aria-hidden="true">
+                    <div style="display:flex; align-items:center; justify-content:space-between;">
+                        <strong>メニュー</strong>
+                        <button class="drawer-close" id="drawerClose" aria-label="閉じる">✕</button>
+                    </div>
+                    <nav aria-label="モバイルナビ">
+                        <a href="index.html">HOME</a>
+                        <a href="about-us.html">ABOUT US</a>
+                        <a href="about-mascot.html">ABOUT MASCOT</a>
+                        <a href="access.html">ACCESS</a>
+                    </nav>
+                </aside>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-container">
+                <h1 class="hero-title">ABOUT US</h1>
+                <p class="hero-subtitle">漁火の会について — 目的と活動</p>
+                <p class="hero-description">
+                    漁火の会は、発表と交流を通じて学び合う場を提供することを目的とした学生主体のコミュニティです。多様なテーマのブースを通じて、参加者同士の知識交換や経験の共有を促進します。
+                </p>
+            </div>
+        </section>
+
+        <div class="content">
+            <section>
+                <h2 class="section-title">ミッション</h2>
+                <div class="card">
+                    私たちのミッションは、学生や若者が自身の興味・研究・実践を発表できる場を作り、参加者同士のつながりと学びを深めることです。発表・体験・対話を通じて、新しい取り組みが生まれることを目指します。
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">活動内容</h2>
+                <div class="two-column">
+                    <div>
+                        <div class="card">
+                            <strong>・年次イベント（漁火の会）</strong><br>
+                            学期末に開催される公開イベント。ブース発表、ワークショップ、パネルディスカッションなどを実施します。
+                        </div>
+
+                        <div class="card">
+                            <strong>・ワークショップ</strong><br>
+                            実践的なスキルやテーマ別の学習会を定期的に開催します（例：発表練習、ファシリテーション研修）。
+                        </div>
+                    </div>
+
+                    <aside class="card">
+                        <strong>連絡先</strong><br>
+                        メール: info@example.com<br>
+                        SNS: Instagram公式アカウントを参照してください。<br>
+                        <p class="muted">※実際に運用するアドレスに置き換えてください。</p>
+                    </aside>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">沿革</h2>
+                <div class="card">
+                    <ul style="padding-left:1rem; list-style: disc;">
+                        <li>2018年 - 小規模な研究発表会として発足</li>
+                        <li>2021年 - 学内外に参加者を広げる形で拡大</li>
+                        <li>2024年 - 現在の形で年次イベントとして定着</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        © 漁火の会 2025 — All rights reserved.
+    </footer>
+
+    <script>
+        // Drawer behavior (same logic as index.html)
+        (function() {
+            const hamburger = document.getElementById('hamburger');
+            const drawer = document.getElementById('site-drawer');
+            const drawerClose = document.getElementById('drawerClose');
+
+            function openDrawer() {
+                drawer.classList.add('open');
+                drawer.setAttribute('aria-hidden','false');
+                hamburger.setAttribute('aria-expanded','true');
+                document.body.style.overflow = 'hidden';
+                const firstLink = drawer.querySelector('a'); if (firstLink) firstLink.focus();
+            }
+            function closeDrawer() {
+                drawer.classList.remove('open');
+                drawer.setAttribute('aria-hidden','true');
+                hamburger.setAttribute('aria-expanded','false');
+                document.body.style.overflow = '';
+                hamburger.focus();
+            }
+
+            hamburger.addEventListener('click', () => {
+                const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+                if (expanded) closeDrawer(); else openDrawer();
+            });
+            drawerClose.addEventListener('click', closeDrawer);
+            document.addEventListener('click', function(e) {
+                if (!drawer.classList.contains('open')) return;
+                if (e.target === hamburger || drawer.contains(e.target)) return;
+                closeDrawer();
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
+            });
+            drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
+        })();
+    </script>
+</body>
+</html>
