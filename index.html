@@ -23,6 +23,8 @@
             min-height: 100vh;
         }
 
+        a { color: inherit; text-decoration: none; }
+
         /* ===============================
            Header
         ================================= */
@@ -53,68 +55,124 @@
         }
 
         .logo {
-            width: 2.2rem;               /* 必要ならサイズ調整 */
+            width: 2.2rem;
             height: 2.2rem;
             border-radius: 50%;
             margin-right: 0.75rem;
-            background-color: #4B6BFF;   /* 画像読み込み失敗時のフォールバック色 */
-            background-image: url('a5a5d45f8f1ba963.png'); /* ← ここに実際の画像ファイルパスを入れる */
+            background-color: #4B6BFF;
+            background-image: url('a5a5d45f8f1ba963.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            /* 必要なら枠や影を付ける */
-            /* box-shadow: 0 1px 3px rgba(0,0,0,0.12); */
         }
 
         .site-title {
             font-size: 1.25rem;
             font-weight: bold;
             color: #000;
-            text-decoration: none;
             cursor: pointer;
-            transition: opacity 0.2s;
         }
 
-        .site-title:hover {
-            opacity: 0.7;
-        }
-
-        .nav {
-            display: none;
-            gap: 2rem;
-        }
-
-        @media (min-width: 768px) {
-            .nav {
-                display: flex;
-            }
-        }
-
-        /* スムーススクロール */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        .nav-link {
-            text-decoration: none;
+        /* --- Hamburger / Drawer & Desktop nav --- */
+        .hamburger {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
             background: none;
             border: none;
-            color: rgba(0, 0, 0, 0.7);
-            font-size: 0.875rem;
-            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .hamburger .bar {
+            width: 20px;
+            height: 2px;
+            background: #111;
+            display: block;
+            position: relative;
+        }
+
+        .hamburger .bar::before,
+        .hamburger .bar::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #111;
+            transition: transform 180ms ease, top 180ms ease, opacity 180ms ease;
+        }
+        .hamburger .bar::before { top: -6px; }
+        .hamburger .bar::after { top: 6px; }
+
+        /* Drawer (mobile) */
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 280px;
+            height: 100vh;
+            background: #FFFFFF;
+            box-shadow: -10px 0 30px rgba(16,24,40,0.08);
+            transition: right 220ms ease;
+            z-index: 200;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .drawer.open { right: 0; }
+
+        .drawer a {
+            padding: 0.75rem 0.5rem;
+            font-weight: 700;
+            font-size: 1rem;
+            border-radius: 6px;
+            display: block;
+            color: rgba(0,0,0,0.85);
+        }
+
+        .drawer a:hover { background: rgba(75,107,255,0.06); color: #4B6BFF; }
+
+        .drawer .drawer-close {
+            margin-left: auto;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
             cursor: pointer;
             padding: 0.25rem;
         }
 
-        .nav-link:hover {
-            color: #000;
+        /* Desktop nav (shown from tablet/desktop) */
+        .main-nav {
+            display: none;
+            gap: 1.5rem;
+            align-items: center;
         }
 
-        .nav-link.active {
-            color: #4B6BFF;
-            text-decoration: underline;
-            text-underline-offset: 4px;
+        .main-nav a {
+            display: inline-block;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 0.25rem 0.4rem;
+            white-space: nowrap; /* 1行に収める */
+            letter-spacing: 0.02em;
         }
+
+        .main-nav a:hover { color: #4B6BFF; }
+
+        @media (min-width: 768px) {
+            .hamburger { display: none; }
+            .drawer { display: none; }
+            .main-nav { display: flex; }
+            /* desktop: ensure items fit on single line — adjust spacing if necessary */
+            .main-nav { gap: 2rem; font-size: 0.95rem; }
+        }
+
+        /* スムーススクロール */
+        html { scroll-behavior: smooth; }
 
         /* ===============================
            Hero Section
@@ -122,15 +180,10 @@
         .hero {
             padding: 3rem 1.5rem 4rem;
             text-align: center;
-            /* 背景画像を削除。薄い白のオーバーレイだけ残したい場合は下行を使う */
             background: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6));
-            /* または単純に背景色にするなら: background-color: #ffffff; */
         }
 
-        .hero-container {
-            max-width: 56rem;
-            margin: 0 auto;
-        }
+        .hero-container { max-width: 56rem; margin: 0 auto; }
 
         .hero-title {
             font-size: 2.25rem;
@@ -140,419 +193,92 @@
             margin-bottom: 1.5rem;
         }
 
-        .hero-subtitle {
-            font-size: 1.10rem;
-            color: rgba(0, 0, 0, 0.7);
-            margin-bottom: 2rem;
-        }
+        .hero-subtitle { font-size: 1.10rem; color: rgba(0, 0, 0, 0.7); margin-bottom: 2rem; }
 
-        .event-info {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            align-items: center;
-            margin-bottom: 3rem;
-        }
+        .event-info { display: flex; flex-direction: column; gap: 1rem; align-items: center; margin-bottom: 3rem; }
 
-        .info-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+        .info-item { display: flex; align-items: center; gap: 0.5rem; }
 
-        .info-icon {
-            width: 20px;
-            height: 20px;
-            color: rgba(0, 0, 0, 0.7);
-        }
+        .info-icon { width: 20px; height: 20px; color: rgba(0, 0, 0, 0.7); }
 
-        .info-text {
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: rgba(0, 0, 0, 0.8);
-        }
+        .info-text { font-size: 1.125rem; font-weight: 600; color: rgba(0, 0, 0, 0.8); }
 
-        .hero-description {
-            font-size: 1.125rem;
-            color: rgba(0, 0, 0, 0.7);
-            line-height: 1.75;
-            max-width: 48rem;
-            margin: 0 auto;
-        }
+        .hero-description { font-size: 1.125rem; color: rgba(0, 0, 0, 0.7); line-height: 1.75; max-width: 48rem; margin: 0 auto; }
 
         @media (min-width: 640px) {
-            .hero-title {
-                font-size: 3rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1.5rem;
-            }
-
-            .event-info {
-                flex-direction: row;
-                justify-content: center;
-            }
+            .hero-title { font-size: 3rem; }
+            .hero-subtitle { font-size: 1.5rem; }
+            .event-info { flex-direction: row; justify-content: center; }
         }
 
         @media (min-width: 1024px) {
-            .hero-title {
-                font-size: 3.75rem;
-            }
+            .hero-title { font-size: 3.75rem; }
         }
 
         /* ===============================
            Schedule Section
         ================================= */
-        .schedule {
-            padding: 4rem 1.5rem;
-            background-color: #FFFFFF;
-        }
+        .schedule { padding: 4rem 1.5rem; background-color: #FFFFFF; }
+        .schedule-container { max-width: 56rem; margin: 0 auto; padding: 1.5rem; }
 
-        .schedule-container {
-            max-width: 56rem;
-            margin: 0 auto;
-            padding: 1.5rem;
-        }
-
-        .schedule-table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #F8F9FA;
-            border-radius: 0.5rem;
-            overflow: hidden;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
-        }
-
-        .schedule-table th,
-        .schedule-table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #E0E0E0;
-        }
-
-        .schedule-table th {
-            background-color: #4B6BFF;
-            color: #FFFFFF;
-            font-weight: 700;
-            font-size: 1rem;
-        }
-
-        .schedule-table td {
-            font-size: 0.95rem;
-            color: rgba(0, 0, 0, 0.8);
-        }
-
-        .schedule-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        @media (max-width: 640px) {
-            .schedule-table th,
-            .schedule-table td {
-                padding: 0.75rem;
-                font-size: 0.875rem;
-            }
-        }
+        .schedule-table { width: 100%; border-collapse: collapse; background-color: #F8F9FA; border-radius: 0.5rem; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.05); }
+        .schedule-table th, .schedule-table td { padding: 1rem; text-align: left; border-bottom: 1px solid #E0E0E0; }
+        .schedule-table th { background-color: #4B6BFF; color: #FFFFFF; font-weight: 700; font-size: 1rem; }
+        .schedule-table td { font-size: 0.95rem; color: rgba(0, 0, 0, 0.8); }
+        .schedule-table tr:last-child td { border-bottom: none; }
+        @media (max-width: 640px) { .schedule-table th, .schedule-table td { padding: 0.75rem; font-size: 0.875rem; } }
 
         /* ===============================
            Booth Section
         ================================= */
-        .booths {
-            padding: 4rem 1.5rem;
-            background-color: #FFFFFF;
-        }
+        .booths { padding: 4rem 1.5rem; background-color: #FFFFFF; }
+        .booths-container { max-width: 1152px; margin: 0 auto; }
 
-        .booths-container {
-            max-width: 1152px;
-            margin: 0 auto;
-        }
+        .section-title { font-size: 1.875rem; font-weight: 900; color: rgba(0, 0, 0, 0.9); text-align: center; margin-bottom: 2rem; }
 
-        .section-title {
-            font-size: 1.875rem;
-            font-weight: 900;
-            color: rgba(0, 0, 0, 0.9);
-            text-align: center;
-            margin-bottom: 2rem;
-        }
+        .filter-container { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 3rem; }
+        .filter-btn { padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: all 150ms; background-color: transparent; color: rgba(0, 0, 0, 0.7); border: 1px solid #E0E0E0; }
+        .filter-btn.active { background-color: #4B6BFF; color: #FFFFFF; border: none; }
+        .filter-btn:hover:not(.active) { background-color: rgba(0, 0, 0, 0.05); }
 
-        .filter-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            justify-content: center;
-            margin-bottom: 3rem;
-        }
+        .booth-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        @media (min-width: 768px) { .booth-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .booth-grid { grid-template-columns: repeat(3, 1fr); } }
 
-        .filter-btn {
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 150ms;
-            background-color: transparent;
-            color: rgba(0, 0, 0, 0.7);
-            border: 1px solid #E0E0E0;
-        }
-
-        .filter-btn.active {
-            background-color: #4B6BFF;
-            color: #FFFFFF;
-            border: none;
-        }
-
-        .filter-btn:hover:not(.active) {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
-
-        .booth-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-
-        @media (min-width: 768px) {
-            .booth-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .booth-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        .booth-card {
-            background-color: #F8F9FA;
-            border: 1px solid #E0E0E0;
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            cursor: pointer;
-            transition: all 150ms;
-        }
-
-        .booth-card:hover {
-            transform: scale(1.03);
-            border-color: #4B6BFF;
-            box-shadow: 0 0 10px rgba(75, 107, 255, 0.1);
-        }
-
-		/* カード全体をクリック可能にするためのリンク設定 */
-		.booth-card-link {
-    		text-decoration: none;
-    		color: inherit;
-    		display: block;
-		}
-
-		.booth-card-link:hover .booth-card {
-			transform: scale(1.03);
-			border-color: #4B6BFF;
-			box-shadow: 0 0 10px rgba(75, 107, 255, 0.1);
-		}
-		
-		/* --- カードのホバーでふわっと浮くアニメーション --- */
-		.booth-card,
-        .news-card {
-            transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
-            will-change: transform, box-shadow;
-		}
-
-		.booth-card-link:hover .booth-card,
-        .news-card-link:hover .news-card {
-            transform: translateY(-6px) scale(1.01); /* 少し上に持ち上げる */
-            box-shadow: 0 12px 24px rgba(16, 24, 40, 0.08);
-        }
-
-		/* ユーザーがキーボードでフォーカスしたときも見えるように */
-        .booth-card-link:focus .booth-card,
-        .news-card-link:focus .news-card {
-            outline: 3px solid rgba(75,107,255,0.12);
-            transform: translateY(-6px) scale(1.01);
-        }
-
-        .booth-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.75rem;
-        }
-
-        .booth-category {
-            background-color: #4B6BFF;
-            color: #FFFFFF;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .booth-location {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: rgba(0, 0, 0, 0.5);
-        }
-
-        .booth-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: rgba(0, 0, 0, 0.9);
-            margin-bottom: 0.5rem;
-        }
-
-        .booth-presenterLocation {
-            font-size: 0.875rem;
-            color: rgba(0, 0, 0, 0.6);
-            margin-bottom: 0.75rem;
-        }
-
-        .booth-description {
-            font-size: 0.875rem;
-            color: rgba(0, 0, 0, 0.7);
-            line-height: 1.75;
-            margin-bottom: 1rem;
-        }
-
-        .booth-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .booth-tag {
-            background-color: #E0E0E0;
-            color: rgba(0, 0, 0, 0.8);
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-        }
-
-        /* 矢印を小さく・線を細く・クリック領域を狭める */
-        .arrow-icon,
-        .news-arrow {
-            width: 16px;
-            height: 12px;
-            stroke-width: 1.5; /* SVG線を少し細く（CSSで指定可） */
-            color: rgba(0,0,0,0.45);
-        }
-
-        /* 矢印を囲うリンクの余白を少し小さくする */
-        .arrow-link,
-        .news-arrow-link {
-            padding: 4px;     /* 元は6px -> 4px に */
-            border-radius: 6px;
-        }
+        .booth-card { background-color: #F8F9FA; border: 1px solid #E0E0E0; border-radius: 0.5rem; padding: 1.5rem; cursor: pointer; transition: all 150ms; }
+        .booth-card:hover { transform: scale(1.03); border-color: #4B6BFF; box-shadow: 0 0 10px rgba(75, 107, 255, 0.1); }
+        .booth-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+        .booth-category { background-color: #4B6BFF; color: #FFFFFF; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600; }
+        .booth-location { font-size: 0.875rem; font-weight: 600; color: rgba(0, 0, 0, 0.5); }
+        .booth-title { font-size: 1.25rem; font-weight: 700; color: rgba(0, 0, 0, 0.9); margin-bottom: 0.5rem; }
+        .booth-presenterLocation { font-size: 0.875rem; color: rgba(0, 0, 0, 0.6); margin-bottom: 0.75rem; }
+        .booth-description { font-size: 0.875rem; color: rgba(0, 0, 0, 0.7); line-height: 1.75; margin-bottom: 1rem; }
+        .booth-footer { display: flex; justify-content: space-between; align-items: center; }
+        .booth-tag { background-color: #E0E0E0; color: rgba(0, 0, 0, 0.8); padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; }
+        .arrow-icon { width: 16px; height: 12px; color: rgba(0,0,0,0.45); }
 
         /* ===============================
            News Section
         ================================= */
-        .news {
-            padding: 4rem 1.5rem;
-            background-color: #F8F9FA;
-        }
-
-        .news-container {
-            max-width: 56rem;
-            margin: 0 auto;
-        }
-
-        .news-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .news-card {
-            background-color: #FFFFFF;
-            border: 1px solid #E0E0E0;
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            cursor: pointer;
-            transition: all 150ms;
-        }
-
-        .news-card:hover {
-            background-color: #F1F3FF;
-            border-color: #D0D8FF;
-        }
-
-		/* ニュースカード全体をクリック可能にする */
-        .news-card-link {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-		   }
-
-		  .news-card-link:hover .news-card {
-            background-color: #F1F3FF;
-            border-color: #D0D8FF;
-            transform: scale(1.02);
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
-            box-shadow: 0 0 8px rgba(75, 107, 255, 0.1);
-		   }
-
-        .news-header {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .news-meta {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .news-category {
-            background-color: #4B6BFF;
-            color: #FFFFFF;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .news-date {
-            font-size: 0.875rem;
-            color: rgba(0, 0, 0, 0.5);
-        }
-
-        .news-title {
-            font-size: 1.125rem;
-            font-weight: 700;
-            color: rgba(0, 0, 0, 0.9);
-            margin-bottom: 0.5rem;
-        }
-
-        .news-excerpt {
-            font-size: 0.875rem;
-            color: rgba(0, 0, 0, 0.7);
-            line-height: 1.75;
-        }
-
-        @media (min-width: 640px) {
-            .news-header {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .news-meta {
-                margin-bottom: 0;
-            }
-        }
+        .news { padding: 4rem 1.5rem; background-color: #F8F9FA; }
+        .news-container { max-width: 56rem; margin: 0 auto; }
+        .news-list { display: flex; flex-direction: column; gap: 1rem; }
+        .news-card { background-color: #FFFFFF; border: 1px solid #E0E0E0; border-radius: 0.5rem; padding: 1.5rem; cursor: pointer; transition: all 150ms; }
+        .news-card:hover { background-color: #F1F3FF; border-color: #D0D8FF; }
+        .news-header { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 0.75rem; }
+        .news-meta { display: flex; align-items: center; gap: 0.75rem; }
+        .news-category { background-color: #4B6BFF; color: #FFFFFF; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600; }
+        .news-date { font-size: 0.875rem; color: rgba(0, 0, 0, 0.5); }
+        .news-title { font-size: 1.125rem; font-weight: 700; color: rgba(0, 0, 0, 0.9); margin-bottom: 0.5rem; }
+        .news-excerpt { font-size: 0.875rem; color: rgba(0, 0, 0, 0.7); line-height: 1.75; }
 
         /* ===============================
            SNS Section
         ================================= */
-        .sns {
-            padding: 4rem 1.5rem;
-            background-color: #F8F9FA;
-            text-align: center;
-        }
+        .sns { padding: 4rem 1.5rem; background-color: #F8F9FA; text-align: center; }
 
+        /* small helper */
+        .sr-only { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
     </style>
 </head>
 
@@ -563,16 +289,36 @@
             <div class="header-content">
 
                 <div class="header-left">
-                    <div class="logo"></div>
-                    <h1 class="site-title">漁火の会 2025</h1>
+                    <div class="logo" aria-hidden="true"></div>
+                    <a class="site-title" href="index.html">漁火の会 2025</a>
                 </div>
 
-                <nav class="nav" aria-label="メインナビゲーション">
-                    <a class="nav-link" href="#news">News</a>
-                    <a class="nav-link" href="#schedule">スケジュール</a>
-                    <a class="nav-link" href="#booths">ブース一覧</a>
-                    <a class="nav-link" href="#sns">SNS</a>
+                <!-- Desktop nav -->
+                <nav class="main-nav" aria-label="グローバルナビゲーション">
+                    <a href="index.html">HOME</a>
+                    <a href="about-us.html">ABOUT US</a>
+                    <a href="about-mascot.html">ABOUT MASCOT</a>
+                    <a href="access.html">ACCESS</a>
                 </nav>
+
+                <!-- Mobile hamburger -->
+                <button class="hamburger" id="hamburger" aria-controls="site-drawer" aria-expanded="false" aria-label="メニューを開く">
+                    <span class="bar" aria-hidden="true"></span>
+                </button>
+
+                <!-- Drawer (mobile) -->
+                <aside id="site-drawer" class="drawer" aria-hidden="true">
+                    <div style="display:flex; align-items:center; justify-content:space-between;">
+                        <strong>メニュー</strong>
+                        <button class="drawer-close" id="drawerClose" aria-label="閉じる">✕</button>
+                    </div>
+                    <nav aria-label="モバイルナビ">
+                        <a href="index.html">HOME</a>
+                        <a href="about-us.html">ABOUT US</a>
+                        <a href="about-mascot.html">ABOUT MASCOT</a>
+                        <a href="access.html">ACCESS</a>
+                    </nav>
+                </aside>
 
             </div>
         </div>
@@ -587,7 +333,7 @@
 
             <div class="event-info">
                 <div class="info-item">
-                    <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                         <line x1="16" y1="2" x2="16" y2="6"></line>
                         <line x1="8" y1="2" x2="8" y2="6"></line>
@@ -689,6 +435,64 @@
     </section>
 
     <script>
+        // Drawer / hamburger behavior
+        (function() {
+            const hamburger = document.getElementById('hamburger');
+            const drawer = document.getElementById('site-drawer');
+            const drawerClose = document.getElementById('drawerClose');
+
+            function openDrawer() {
+                drawer.classList.add('open');
+                drawer.setAttribute('aria-hidden', 'false');
+                hamburger.setAttribute('aria-expanded', 'true');
+                document.body.style.overflow = 'hidden';
+                // move focus to first link in drawer
+                const firstLink = drawer.querySelector('a');
+                if (firstLink) firstLink.focus();
+            }
+
+            function closeDrawer() {
+                drawer.classList.remove('open');
+                drawer.setAttribute('aria-hidden', 'true');
+                hamburger.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+                hamburger.focus();
+            }
+
+            hamburger.addEventListener('click', () => {
+                const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+                if (expanded) closeDrawer(); else openDrawer();
+            });
+
+            drawerClose.addEventListener('click', closeDrawer);
+
+            // close on outside click
+            document.addEventListener('click', function(e) {
+                if (!drawer.classList.contains('open')) return;
+                if (e.target === hamburger || drawer.contains(e.target)) return;
+                closeDrawer();
+            });
+
+            // close on Esc
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && drawer.classList.contains('open')) {
+                    closeDrawer();
+                }
+            });
+
+            // ensure links in drawer close it when clicked (mobile navigation)
+            drawer.querySelectorAll('a').forEach(a => {
+                a.addEventListener('click', () => {
+                    // allow normal navigation: close drawer for UX
+                    closeDrawer();
+                });
+            });
+        })();
+
+        // ----------------------
+        // existing page data & render logic (kept largely from original)
+        // ----------------------
+
         // Booth data
         const booths = [
             {
@@ -732,7 +536,7 @@
                 id: 6,
                 title: "1日アフリカ代表になってみよう！",
                 presenterLocation: "未定",
-                category: "文化",
+                category: "社会課題",
                 description: "異なる国を担当して、アフリカの社会課題について一緒に議論しよう！"
             },
             {
@@ -742,14 +546,14 @@
                 category: "留学",
                 description: "私たちの実体験を踏まえてホームステイの魅力や失敗談をお話します！"
             },
-				{
+            {
                 id: 8,
                 title: "カスタマイズ留学～自分なりの留学への第一歩～",
                 presenterLocation: "未定",
-                category: "思想",
+                category: "留学",
                 description: "留学は想像よりも堅くない！私たちと一緒に留学をカスタマイズしてみよう！"
             },
-				{
+            {
                 id: 9,
                 title: "DIPLOMACY in ACTION",
                 presenterLocation: "未定",
@@ -791,14 +595,12 @@
             }
         ];
 
-        let currentCategory = '全て';
-
-        // Render booths - 矢印をリンクにしました（仮URL: booth.html?id=...）
+        // Render booths - link to placeholder booth page
         function renderBooths(category = '全て') {
             const grid = document.getElementById('boothGrid');
             const filtered = category === '全て' ? booths : booths.filter(b => b.category === category);
             grid.innerHTML = filtered.map(booth => `
-                <a href="booth.html?id=${booth.id}" class="booth-card-link">
+                <a href="booth.html?id=${booth.id}" class="booth-card-link" style="text-decoration:none;color:inherit;display:block;">
                 <div class="booth-card" data-category="${booth.category}">
                 <div class="booth-header">
                     <span class="booth-category">${booth.category}</span>
@@ -806,18 +608,16 @@
                 <h3 class="booth-title">${booth.title}</h3>
                 <p class="booth-presenterLocation">場所: ${booth.presenterLocation}</p>
                 <p class="booth-description">${booth.description}</p>
-
             </div>
         </a>
         `).join('');
         }
 
-        // Render news - 矢印をリンクにしました（仮URL: news.html?id=...）
+        // Render news - link to placeholder news page
         function renderNews() {
             const list = document.getElementById('newsList');
-            
             list.innerHTML = news.map(item => `
-                <a href="news.html?id=${item.id}" class="news-card-link">
+                <a href="news.html?id=${item.id}" class="news-card-link" style="display:block;color:inherit;text-decoration:none;">
                 	<div class="news-card">
                 		<div class="news-header">
                     		<div class="news-meta">
@@ -832,51 +632,16 @@
                 `).join('');
         }
 
-        // Filter booths
-        function filterBooths(category, event) {
-            currentCategory = category;
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            renderBooths(category);
-        }
-
-        // 小さなユーティリティ：HTMLエスケープ（aria-label用）
-        function escapeHtml(str) {
-            return String(str).replace(/[&<>"']/g, function(m) {
-                return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]);
-            });
-        }
-
         // Initial render
         renderBooths();
         renderNews();
 
-        // ナビのアクティブ切替
-        const navLinks = document.querySelectorAll('.nav-link');
-        const sections = Array.from(document.querySelectorAll('section[id]'));
-
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                const id = entry.target.getAttribute('id');
-                const link = document.querySelector(`.nav-link[href="#${id}"]`);
-                if (link) {
-                    if (entry.isIntersecting) {
-                        navLinks.forEach(n => n.classList.remove('active'));
-                        link.classList.add('active');
-                    }
-                }
-            });
-        }, {
-            root: null,
-            rootMargin: '0px 0px -40% 0px',
-            threshold: 0
-        });
-
-        sections.forEach(sec => observer.observe(sec));
-
-        // ナビクリックでフォーカス外す
-        navLinks.forEach(l => l.addEventListener('click', () => l.blur()));
+        // Filter button handler (if you add filter buttons later)
+        function filterBooths(category, event) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            if (event && event.target) event.target.classList.add('active');
+            renderBooths(category);
+        }
     </script>
-
 </body>
 </html>
