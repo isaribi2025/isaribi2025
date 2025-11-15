@@ -41,14 +41,18 @@
         .hero-container { max-width:56rem; margin:0 auto; }
         .hero-title { font-size:2.25rem; font-weight:900; margin-bottom:1rem; }
         .hero-subtitle { font-size:1.10rem; color: rgba(0,0,0,0.7); margin-bottom:1.25rem; }
-        .hero-description { font-size:1.125rem; color: rgba(0,0,0,0.7); line-height:1.75; max-width:48rem; margin:0 auto; }
+        .hero-description { font-size:1.125rem; color: rgba(0,0,0,0.7); line-height:1.75; max-width:48rem; margin:0 auto; text-align:left;}
 
         .content { max-width:1152px; margin:2rem auto; padding:0 1.5rem 4rem; }
         .section-title { font-size:1.875rem; font-weight:900; color: rgba(0,0,0,0.9); text-align:left; margin-bottom:1rem; }
         .card { background:#fff; border:1px solid #EAEAEA; border-radius:8px; padding:1.25rem; margin-bottom:1rem; box-shadow:0 0 8px rgba(0,0,0,0.03); line-height:1.9; }
         .map-placeholder { width:100%; height:100%; background:#f1f3ff; border:1px dashed #D0D8FF; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#6b78b8; font-weight:700; }
         .muted { color: rgba(0,0,0,0.6); font-size:0.95rem; }
-
+		  .attention{
+		color: red;
+		font-size: 1.125rem;
+		text-align: left;
+		}
         footer { padding:2rem 1.5rem; border-top:1px solid #EAEAEA; background:#fff; text-align:center; color: rgba(0,0,0,0.6); }
     </style>
 </head>
@@ -94,7 +98,9 @@
                 <h1 class="hero-title">ACCESS</h1>
                 <p class="hero-subtitle">会場へのアクセス方法</p>
                 <p class="hero-description">
-                    当日の会場への行き方、駐車場・公共交通機関のご案内です。必要に応じて地図や写真を差し替えてご利用ください。
+                    当日の会場への行き方のご案内です。</p><p class="attention" >駐車場はご用意できません。お車のご来場はご遠慮ください。自動車でご来校された方の駐車場所の件で、学校近隣の地域の皆様に多大なご迷惑をおかけする事案が発生しています。</p>
+<p class="hero-description">ご来校の際は公共交通機関をご利用いただき、短時間であっても自動車を学校近隣の路上や店舗に駐車することはないよう、くれぐれもお願いいたします。
+店舗や近隣の方から車両ナンバー等を通報される可能性もあります。
                 </p>
             </div>
         </section>
@@ -110,9 +116,10 @@
 
             <section>
                 <h2 class="section-title">地図</h2>
-                <div class="card">
+                <div class="card">市川学園駅から学校までの歩き方は下の地図を参照してください。
                     <div class="map-placeholder">
 	<iframe src="https://www.google.com/maps/embed?pb=!1m24!1m8!1m3!1d3238.7011209018983!2d139.94400657579!3d35.73356837257042!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x60188130b79e1f79%3A0x96de06b5b0dcfeb4!2z5Y2D6JGJ55yM5biC5bed5biC5p2x6I-F6YeO77yV5LiB55uu77yR77yTIOW4guW3neWtpuWckg!3m2!1d35.7343586!2d139.9457976!4m5!1s0x6018813a9fc77603%3A0xaaaca2a6cb3bc971!2z44CSMjcyLTA4MTYg5Y2D6JGJ55yM5biC5bed5biC5pys5YyX5pa577yS5LiB55uu77yT77yY4oiS77yRIOW4guW3neS4reWtpuagoeODu-mrmOetieWtpuagoQ!3m2!1d35.7324275!2d139.9472802!5e0!3m2!1sja!2sjp!4v1762849617356!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+	<p></p>
 </div>
                 </div>
             </section>
@@ -121,26 +128,29 @@
                 <h2 class="section-title">交通手段</h2>
                 <div class="card">
                     <ul style="padding-left:1rem; list-style: disc;">
-                        <li><strong>電車:</strong> 最寄り駅 ○○駅（徒歩約12分）</li>
-                        <li><strong>バス:</strong> ○○線「市川学園」駅徒歩4分</li>
+                        
+<div>
+<li>
+<strong>徒歩:<ul></strong>
+京成鬼越駅より徒歩20分
+</li>
+</div>
+<div>
+<li>
+<strong>京成バス（市川学園駅）:<ul></strong> 
+本八幡駅 2番乗り場より11分<ul>
+市川大野駅 1番乗り場より11分
+</li>
+</div>
                     </ul>
-                </div>
-            </section>
-
-            <section>
-                <h2 class="section-title">駐車場・注意事項</h2>
-                <div class="card">
-                    当日は混雑が予想されます。可能な限り公共交通機関の利用をお願いいたします。車で来場予定の方は事前に駐車場の有無を確認してください。
                 </div>
             </section>
         </div>
     </main>
 
     <footer>
-        © 漁火の会 2025 — All rights reserved.
-    </footer>
-<footer style="text-align:center; font-size:0.8rem; color:#666; margin:2rem;">
-<p>最終更新日：2025/11/12</p>
+<p>© 漁火の会 2025 — All rights reserved.</p>
+<p>最終更新日：2025/11/15</p>
 </footer>
     <script>
         // Drawer behavior (same as index.html)
