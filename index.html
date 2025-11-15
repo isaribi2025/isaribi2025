@@ -300,7 +300,7 @@
         /* small helper */
         .sr-only { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
 
-    /* リストコンテナのスタイル */
+        /* リストコンテナのスタイル */
     .contact-list-container {
         display: flex; /* flexboxを使って子要素を中央に配置 */
         justify-content: center; /* 水平方向の中央揃え */
@@ -313,26 +313,32 @@
         list-style: none; /* 黒丸（リストマーカー）を消す */
         padding: 0;
         margin: 0;
-        text-align: center; /* リスト内のテキスト（リンクなど）を中央揃え */
+        text-align: center;
     }
 
     /* 各リスト項目のスタイル */
     .contact-list li {
         margin: 10px 0;
-        font-size: 1.1em; /* フォントサイズを少し大きく */
+        font-size: 1.1em;
     }
 
     /* リンクのスタイル */
     .contact-list a {
         text-decoration: none; /* デフォルトの下線を消す */
-        color: #333; /* リンクの色を調整 (例: 濃い灰色) */
+        color: #333;
         padding-bottom: 2px;
         position: relative;
         display: inline-flex; /* アイコンとテキストをインラインで配置 */
         align-items: center; /* アイコンとテキストを垂直方向中央に揃える */
+        transition: color 0.3s ease; /* ホバー時のテキスト色変化アニメーション */
     }
 
-    /* ホバー時の下線アニメーション（オプション） */
+    /* ホバー時のテキスト色 */
+    .contact-list a:hover {
+        color: #007bff; /* 例: 青色に変化 */
+    }
+
+    /* ホバー時の下線アニメーション */
     .contact-list a::after {
         content: '';
         position: absolute;
@@ -341,9 +347,9 @@
         height: 2px;
         bottom: 0;
         left: 0;
-        background-color: #007bff; /* 下線の色 (例: 青) */
+        background-color: #007bff; /* 下線の色 */
         transform-origin: bottom right;
-        transition: transform 0.3s ease-out; /* アニメーション速度 */
+        transition: transform 0.3s ease-out;
     }
 
     /* ホバー時に下線を表示 */
@@ -352,14 +358,18 @@
         transform-origin: bottom left;
     }
 
-    /* アイコンのスタイル (Material Symbols) */
-    .material-symbols-outlined {
-        font-variation-settings:
-            'FILL' 0,
-            'wght' 400,
-            'GRAD' 0,
-            'opsz' 24;
-        margin-right: 8px; /* アイコンとテキストの間にスペース */
+    /* SVGアイコンのスタイル */
+    .contact-list svg {
+        width: 20px; /* アイコンのサイズ */
+        height: 20px;
+        margin-right: 8px; /* アイコンとテキストの間のスペース */
+        fill: currentColor; /* SVGの色を親要素の文字色に合わせる */
+        transition: fill 0.3s ease; /* ホバー時のSVG色変化アニメーション */
+    }
+
+    /* ホバー時のSVGアイコンの色 */
+    .contact-list a:hover svg {
+        fill: #007bff;
     }
 
     </style>
@@ -529,24 +539,24 @@
     <ul class="contact-list">
         <li>
             <a href="https://www.instagram.com/isarib_i.ichikawa2025?igsh=dHlwemIwc3NnM2R3" target="_blank">
-                <span class="material-symbols-outlined">
-                    link
-                </span>
-                Instagram公式アカウント
+                <svg viewBox="0 0 24 24">
+                    <path d="M7.8 2h8.4C18.15 2 20 3.85 20 6.2v8.4c0 2.35-1.85 4.2-4.2 4.2H7.8C5.45 18.8 3.6 16.95 3.6 14.6V6.2C3.6 3.85 5.45 2 7.8 2zm0 1.6c-1.43 0-2.6 1.17-2.6 2.6v8.4c0 1.43 1.17 2.6 2.6 2.6h8.4c1.43 0 2.6-1.17 2.6-2.6V6.2c0-1.43-1.17-2.6-2.6-2.6H7.8zM12 7.3a4.7 4.7 0 1 0 0 9.4 4.7 4.7 0 0 0 0-9.4zm0 1.6a3.1 3.1 0 1 1 0 6.2 3.1 3.1 0 0 1 0-6.2zM16.9 4.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/>
+                </svg>
+                <u>Instagram公式アカウント</u>
             </a>
         </li>
 
         <li>
             <a href="mailto:isaribi202555@gmail.com">
-                <span class="material-symbols-outlined">
-                    mail
-                </span>
-                メールアドレス（isaribi202555@gmail.com）
+                <svg viewBox="0 0 24 24">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+                <u>メールアドレス（isaribi202555@gmail.com）</u>
             </a>
         </li>
     </ul>
-</div>           
-        </div>
+</div>
+
     </section>
 
 <footer style="text-align:center; font-size:0.8rem; color:#666; margin:2rem;">
