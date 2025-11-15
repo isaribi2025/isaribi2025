@@ -299,6 +299,69 @@
 
         /* small helper */
         .sr-only { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+
+    /* リストコンテナのスタイル */
+    .contact-list-container {
+        display: flex; /* flexboxを使って子要素を中央に配置 */
+        justify-content: center; /* 水平方向の中央揃え */
+        padding: 0;
+        margin: 20px 0; /* 上下の余白 */
+    }
+
+    /* リスト全体のスタイル */
+    .contact-list {
+        list-style: none; /* 黒丸（リストマーカー）を消す */
+        padding: 0;
+        margin: 0;
+        text-align: center; /* リスト内のテキスト（リンクなど）を中央揃え */
+    }
+
+    /* 各リスト項目のスタイル */
+    .contact-list li {
+        margin: 10px 0;
+        font-size: 1.1em; /* フォントサイズを少し大きく */
+    }
+
+    /* リンクのスタイル */
+    .contact-list a {
+        text-decoration: none; /* デフォルトの下線を消す */
+        color: #333; /* リンクの色を調整 (例: 濃い灰色) */
+        padding-bottom: 2px;
+        position: relative;
+        display: inline-flex; /* アイコンとテキストをインラインで配置 */
+        align-items: center; /* アイコンとテキストを垂直方向中央に揃える */
+    }
+
+    /* ホバー時の下線アニメーション（オプション） */
+    .contact-list a::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        transform: scaleX(0); /* 通常時は幅ゼロ */
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: #007bff; /* 下線の色 (例: 青) */
+        transform-origin: bottom right;
+        transition: transform 0.3s ease-out; /* アニメーション速度 */
+    }
+
+    /* ホバー時に下線を表示 */
+    .contact-list a:hover::after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+
+    /* アイコンのスタイル (Material Symbols) */
+    .material-symbols-outlined {
+        font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24;
+        margin-right: 8px; /* アイコンとテキストの間にスペース */
+    }
+
     </style>
 </head>
 
@@ -363,12 +426,12 @@
                     <span class="info-text">開催日 2025年12月20日</span> 
 </div>
 <!-- 開催場所表示（マップアイコン + テキスト）。クリックで ACCESS ページへ -->
-<br><a href="access.html" class="event-location" aria-label="開催場所：市川中学校・高等学校 へのアクセスページへ">
+<br><a href="access.html" class="event-location" aria-label="開催場所：市川学園 へのアクセスページへ">
     <!-- SVG マップピン（軽量、CSSで色調整可能）-->
     <svg class="info-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
       <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/>
     </svg>
-    <span class="info-text"><u>市川中学校・高等学校</u></span>
+    <span class="info-text"><u>市川学園</u></span>
   </a>
             </div>
 
@@ -376,7 +439,9 @@
                 各ブースでは、発表希望者が自身の興味のある分野について参加者に向けて発表を行います。
                 単なる発表にとどまらず、参加者との交流や体験活動も実施いたします。
             </p>
-
+				<p class="hero-description">
+					 ブース参加申し込みはこちら：<a href="https://forms.gle/KKgWxQY1hShqEPCa8"><u>https://forms.gle/KKgWxQY1hShqEPCa8</u></a>
+				</p>
         </div>
     </section>
 
@@ -391,7 +456,7 @@
     <!-- Schedule Section -->
     <section class="schedule" id="schedule">
         <div class="schedule-container">
-            <h2 class="section-title">当日スケジュール</h2>
+            <h2 class="section-title">当日のスケジュール</h2>
 
             <table class="schedule-table">
                 <thead>
@@ -404,7 +469,7 @@
                 <tbody>
                     <tr>
                         <td>09:00</td>
-                        <td>受付</td>
+                        <td>受付開始</td>
                     </tr>
 
                     <tr>
@@ -439,13 +504,18 @@
                 </tbody>
             </table>
         </div>
+<p class="hero-description" style="text-align: center">
+                ※本八幡方面からのご来場はバスの混雑が予想されるため、余裕をもってお越しください。
+            </p>
     </section>
 
     <!-- Booth Section -->
     <section class="booths" id="booths">
         <div class="booths-container">
             <h2 class="section-title">ブース一覧</h2>
-
+<p class="hero-description" style="text-align: center">
+                中2～高2生徒が各ブースを企画・運営しています。
+            </p>
             <div class="booth-grid" id="boothGrid"></div>
         </div>
     </section>
@@ -453,10 +523,29 @@
     <!-- SNS Section -->
     <section class="sns" id="sns">
         <div class="news-container">
-            <h2 class="section-title">SNS</h2>
-            <a href="https://www.instagram.com/isarib_i.ichikawa2025?igsh=dHlwemIwc3NnM2R3" class="hero-description">
-                <u>Instagram公式アカウント</u>
+            <h2 class="section-title">SNS・お問い合わせ</h2>
+
+<div class="contact-list-container">
+    <ul class="contact-list">
+        <li>
+            <a href="https://www.instagram.com/isarib_i.ichikawa2025?igsh=dHlwemIwc3NnM2R3" target="_blank">
+                <span class="material-symbols-outlined">
+                    link
+                </span>
+                Instagram公式アカウント
             </a>
+        </li>
+
+        <li>
+            <a href="mailto:isaribi202555@gmail.com">
+                <span class="material-symbols-outlined">
+                    mail
+                </span>
+                メールアドレス（isaribi202555@gmail.com）
+            </a>
+        </li>
+    </ul>
+</div>           
         </div>
     </section>
 
@@ -529,7 +618,7 @@
             {
                 id: 1,
                 title: "初心者向けWSC英語ディベート体験",
-                presenterLocation: "未定",
+                presenterLocation: "市川学園 高2フロア",
                 category: "ディベート",
                 description: "言語と論理で勝負をつかむ英語ディベートを私達と体験してみませんか！？"
             },
@@ -537,21 +626,21 @@
             {
                 id: 2,
                 title: "文字で、遊ぼう！～平安lifeの楽しみ～",
-                presenterLocation: "未定",
+                presenterLocation: "市川学園 高2フロア",
                 category: "歴史/文化",
                 description: "平安時代の文字や遊びを、平安ヲタクが紹介！歴史好きとつながろう！"
             },
             {
                 id: 3,
-                title: "性×幸せ=ウェルビーイング！？",
-                presenterLocation: "未定",
-                category: "性/人間関係",
-                description: "性教育を通して自分らしく生きる明日を探しに行こう！"
+                title: "Yes or No?みんなで“同意”を話そう！",
+                presenterLocation: "市川学園 高2フロア",
+                category: "性教育",
+                description: "性教育って実は身近！？“同意”について学ぼう！"
             },
             {
                 id: 4,
                 title: "ビブリオバトル体験～知らない本に出会おう～",
-                presenterLocation: "未定",
+                presenterLocation: "市川学園 高2フロア",
                 category: "ビブリオバトル",
                 description: "話して、聞いて、本でつながる交流体験を一からやってみませんか！"
                 
@@ -559,35 +648,35 @@
             {
                 id: 5,
                 title: "地熱発電のイマ、コレカラ。",
-                presenterLocation: "未定",
+                presenterLocation: "市川学園 高2フロア",
                 category: "再生可能エネルギー",
                 description: "一緒に日本のエネルギーの未来を考えてみませんか？"
             },
             {
                 id: 6,
                 title: "1日アフリカ代表になってみよう！",
-                presenterLocation: "未定",
+                presenterLocation: "市川学園 高2フロア",
                 category: "社会課題",
                 description: "異なる国を担当して、アフリカの社会課題について一緒に議論しよう！"
             },
             {
                 id: 7,
                 title: "ホームステイってこんな毎日！",
-                presenterLocation: "未定",
+                presenterLocation: "市川学園 高2フロア",
                 category: "留学",
                 description: "私たちの実体験を踏まえてホームステイの魅力や失敗談をお話します！"
             },
             {
                 id: 8,
                 title: "カスタマイズ留学～自分なりの留学への第一歩～",
-                presenterLocation: "未定",
+                presenterLocation: "市川学園 高2フロア",
                 category: "留学",
                 description: "留学は想像よりも堅くない！私たちと一緒に留学をカスタマイズしてみよう！"
             },
             {
                 id: 9,
                 title: "DIPLOMACY in ACTION",
-                presenterLocation: "未定",
+                presenterLocation: "市川学園 高2フロア",
                 category: "模擬国連",
                 description: "君も各国代表に！模擬国連ブースで国際問題を体験しよう！"
             }
@@ -608,7 +697,7 @@
                 title: "ブース参加者募集中",
                 date: "2025-11-10",
                 category: "募集",
-                excerpt: "各ブースの参加者を募集しています。申込み締切は12月11日です。以下のGoogleフォームよりお申し込みください。"
+                excerpt: "各ブースの参加者を募集しています。申込み締切は12月11日です。こちらのGoogleフォームよりお申し込みください。<u>https://forms.gle/KKgWxQY1hShqEPCa8</u>"
             }
         ];
 
