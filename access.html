@@ -231,8 +231,7 @@
     			position: relative;
     		   width: 100%;
     		   max-width: 100%;
-    		   padding-bottom: 56.25%; 
-/* 16:9 比率 — 必要なら 75%（4:3）などに変更 */
+    		   padding-bottom: 75%;
     		   height: 0;
     		   overflow: hidden;
     		   border-radius: 8px;     
@@ -247,18 +246,6 @@
     		   width: 100% !important;
     		   height: 100% !important;
     		   border: 0;
-		  }
-
-        /* 置き換え：.attention の定義をこれにする */
-		  .attention {
-    		   color: red;
-    		   font-size: 1.125rem;    
-/* hero-description と同じ */
-    		   line-height: 1.75;      
-/* hero-description と同じ行間 */
-    		   text-align: left;
-    		   margin: 0.75rem 0;      
-/* 適度な上下余白（任意） */
 		  }
 
         footer {
@@ -317,7 +304,7 @@
                 </p>
 
                 <!-- 赤文字（注意）部分のインデントを整えました -->
-                <p class="attention">
+                <p class="hero-description" style="color: red">
                     駐車場はご用意できません。お車のご来場はご遠慮ください。自動車でご来校された方の駐車場所の件で、学校近隣の地域の皆様に多大なご迷惑をおかけする事案が発生しています。
                 </p>
 
@@ -332,7 +319,7 @@
             <section>
                 <h2 class="section-title">会場情報</h2>
                 <div class="card">
-                    <p><strong>会場:</strong> 市川中学校・高等学校</p>
+                    <p><strong>会場:</strong> 市川学園</p>
                     <p><strong>住所:</strong> 千葉県市川市本北方2-38-1</p>
                 </div>
             </section>
@@ -345,7 +332,7 @@
     <div class="map-responsive">
         <iframe
             src="https://www.google.com/maps/embed?pb=!1m24!1m8!1m3!1d3238.7011209018983!2d139.94400657579!3d35.73356837257042!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x60188130b79e1f79%3A0x96de06b5b0dcfeb4!2z5Y2D6JGJ55yM5biC5bed5biC5p2x6I-F6YeO77yV5LiB55uu77yR77yTIOW4guW3neWtpuWckg!3m2!1d35.7343586!2d139.9457976!4m5!1s0x6018813a9fc77603%3A0xaaaca2a6cb3bc971!2z44CSMjcyLTA4MTYg5Y2D6JGJ55yM5biC5bed5biC5pys5YyX5pa577yS5LiB55uu77yT77yY4oiS77yRIOW4guW3neS4reWtpuagoeODu-mrmOetieWtpuagoQ!3m2!1d35.7324275!2d139.9472802!5e0!3m2!1sja!2sjp!4v1762849617356!5m2!1sja!2sjp"
-            title="市川中学校・高等学校の地図"
+            title="市川学園の地図"
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade">
         </iframe>
@@ -427,4 +414,4 @@
         })();
     </script>
 </body>
-</html>
+</html>ml>
