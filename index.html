@@ -203,6 +203,26 @@
 
         .info-text { font-size: 1.125rem; font-weight: 600; color: rgba(0, 0, 0, 0.8); }
 
+.event-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+/* ホバー/フォーカス時の視覚効果（アクセシビリティ向上）*/
+.event-location:hover,
+.event-location:focus {
+  background-color: rgba(0,0,0,0.04);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,123,255,0.12); /* 必要なら調整 */
+}
+
+
         .hero-description { font-size: 1.125rem; color: rgba(0, 0, 0, 0.7); line-height: 1.75; max-width: 48rem; margin: 0 auto; }
 
         @media (min-width: 640px) {
@@ -340,10 +360,16 @@
                         <line x1="3" y1="10" x2="21" y2="10"></line>
                     </svg>
 
-                    <span class="info-text">開催日</span>
-                </div>
-
-                <span class="info-text">2025年12月20日</span>
+                    <span class="info-text">開催日 2025年12月20日</span> 
+</div>
+<!-- 開催場所表示（マップアイコン + テキスト）。クリックで ACCESS ページへ -->
+<br><a href="access.html" class="event-location" aria-label="開催場所：市川中学校・高等学校 へのアクセスページへ">
+    <!-- SVG マップピン（軽量、CSSで色調整可能）-->
+    <svg class="info-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/>
+    </svg>
+    <span class="info-text"><u>市川中学校・高等学校</u></span>
+  </a>
             </div>
 
             <p class="hero-description">
@@ -429,13 +455,14 @@
         <div class="news-container">
             <h2 class="section-title">SNS</h2>
             <a href="https://www.instagram.com/isarib_i.ichikawa2025?igsh=dHlwemIwc3NnM2R3" class="hero-description">
-                Instagram公式アカウント
+                <u>Instagram公式アカウント</u>
             </a>
         </div>
     </section>
 
 <footer style="text-align:center; font-size:0.8rem; color:#666; margin:2rem;">
-<p>最終更新日：2025/11/12</p>
+<p>© 漁火の会 2025 — All rights reserved.</p>
+<p>最終更新日：2025/11/15</p>
 </footer>
 
     <script>
@@ -574,28 +601,14 @@
                 title: "漁火の会2025 開催決定！",
                 date: "2025-11-15",
                 category: "お知らせ",
-                excerpt: "漁火の会2025を12月20日に開催いたします。多数のご参加をお待ちしています。"
+                excerpt: "漁火の会2025は12月20日に開催いたします。多数のご参加をお待ちしています。"
             },
             {
                 id: 2,
                 title: "ブース参加者募集中",
                 date: "2025-11-10",
                 category: "募集",
-                excerpt: "発表・体験ブースの参加者を募集しています。申込み締切は11月30日です。"
-            },
-            {
-                id: 3,
-                title: "駐車場のご案内",
-                date: "2025-11-08",
-                category: "アクセス",
-                excerpt: "当日の駐車場利用についてご案内いたします。事前予約制となっております。"
-            },
-            {
-                id: 4,
-                title: "新型コロナ対策について",
-                date: "2025-11-05",
-                category: "重要",
-                excerpt: "感染防止対策を実施の上、開催いたします。マスク着用にご協力ください。"
+                excerpt: "各ブースの参加者を募集しています。申込み締切は12月11日です。以下のGoogleフォームよりお申し込みください。"
             }
         ];
 
