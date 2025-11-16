@@ -5,17 +5,28 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ブース詳細</title>
 
+  <!-- index.html と同じフォント（見た目の互換性維持） -->
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<!-- DOMPurify (HTML入力のサニタイズ) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.0/purify.min.js" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <style>
+    /* フォントを index.html と揃える（本文は明朝系） */
     body {
-      font-family: system-ui, "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+      font-family: "游明朝", "Yu Mincho", "Hiragino Mincho ProN", "MS PMincho", serif;
       padding: 2rem;
       background: #fff;
       color: #111;
+      position: relative;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .container {
       max-width: 760px;
       margin: 0 auto;
+      position: relative;
+      z-index: 2; /* 背景の水玉より前に来る */
     }
 
     a.back {
@@ -31,29 +42,87 @@
       border-radius: 8px;
       padding: 1.25rem;
       box-shadow: 0 6px 18px rgba(16, 24, 40, 0.03);
+      background-color: rgba(255,255,255,0.96);
     }
 
+    /* タイトルをh2相当で中央に配置 */
     .title {
-      font-size: 1.5rem;
-      font-weight: 800;
-      margin-bottom: 0.5rem;
+      text-align: center;
+      font-size: 1.875rem; /* index の .section-title と合わせたサイズ */
+      font-weight: 900;
+      margin-bottom: 0.75rem;
+      color: rgba(0,0,0,0.9);
     }
 
     .meta {
       color: #64748B;
       margin-bottom: 0.75rem;
       font-weight: 600;
+      text-align: center;
     }
 
-    .desc {
+    /* 小見出し（左揃え） */
+    h3.subheading {
+      font-size: 1.125rem; /* h3 相当 */
+      font-weight: 800;
+      margin: 1rem 0 0.5rem 0;
+      text-align: left;
+      color: rgba(0,0,0,0.9);
+    }
+
+    /* 本文フォント（読みやすく） */
+    .field-content {
       line-height: 1.8;
       color: #374151;
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+      text-align: left;
     }
 
     .notfound {
       color: #B91C1C;
       font-weight: 700;
       padding: 1rem 0;
+    }
+
+    /* カラフルで濃い水玉背景（多め・はっきり） */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      /* 複数の radial-gradient を重ねて、多く・濃く・カラフルに */
+      background-image:
+        radial-gradient(circle at 6% 8%, rgba(75,107,255,0.18) 0 26px, transparent 27px),
+        radial-gradient(circle at 22% 16%, rgba(255,107,165,0.16) 0 36px, transparent 37px),
+        radial-gradient(circle at 40% 6%, rgba(96,194,129,0.14) 0 22px, transparent 23px),
+        radial-gradient(circle at 58% 18%, rgba(255,195,70,0.14) 0 28px, transparent 29px),
+        radial-gradient(circle at 78% 8%, rgba(153,102,255,0.12) 0 20px, transparent 21px),
+        radial-gradient(circle at 10% 60%, rgba(75,107,255,0.12) 0 40px, transparent 41px),
+        radial-gradient(circle at 28% 78%, rgba(255,107,165,0.10) 0 30px, transparent 31px),
+        radial-gradient(circle at 48% 50%, rgba(255,195,70,0.10) 0 60px, transparent 61px),
+        radial-gradient(circle at 66% 62%, rgba(96,194,129,0.10) 0 34px, transparent 35px),
+        radial-gradient(circle at 86% 72%, rgba(153,102,255,0.09) 0 26px, transparent 27px),
+        radial-gradient(circle at 50% 85%, rgba(75,107,255,0.08) 0 44px, transparent 45px);
+      background-repeat: no-repeat;
+      background-size: cover;
+      mix-blend-mode: normal;
+    }
+
+    /* モバイル時の読みやすさを若干調整 */
+    @media (max-width: 640px) {
+      .title { font-size: 1.5rem; }
+      .field-content { font-size: 0.97rem; }
+      body::before {
+        /* モバイルではやや小さめに見えるように縮尺変更 */
+        background-image:
+          radial-gradient(circle at 8% 6%, rgba(75,107,255,0.20) 0 18px, transparent 19px),
+          radial-gradient(circle at 28% 12%, rgba(255,107,165,0.18) 0 22px, transparent 23px),
+          radial-gradient(circle at 60% 10%, rgba(96,194,129,0.14) 0 18px, transparent 19px),
+          radial-gradient(circle at 82% 20%, rgba(255,195,70,0.12) 0 24px, transparent 25px),
+          radial-gradient(circle at 50% 70%, rgba(75,107,255,0.09) 0 36px, transparent 37px);
+      }
     }
   </style>
 </head>
@@ -65,80 +134,122 @@
     <div id="content" class="card">
       <div id="loading">読み込み中…</div>
     </div>
+
   </div>
+
 <footer style="text-align:center; font-size:0.8rem; color:#666; margin:2rem;">
-<p>最終更新日：2025/11/12</p>
-</footer>
+<p>最終更新日：2025/11/16</p>
+
   <script>
-    // --- 同じデータをここに入れておく（メインページと一致させる） ---
+    // --- booths 配列に recommended と organizerMessage プロパティを追加済み ---
     const booths = [
-            {
-                id: 1,
-                title: "初心者向けWSC英語ディベート体験",
-                presenterLocation: "未定",
-                category: "ディベート",
-                description: "言語と論理で勝負をつかむ英語ディベートを私達と体験してみませんか！？"
-            },
+      {
+        id: 1,
+        title: "初心者向けWSC英語ディベート体験",
+        presenterLocation: "市川学園 高2フロア",
+        category: "ディベート",
+        description: "The World Scholer's Cupは世界の仲間と交流できる大会です。このブースでは、その一種目の英語ディベートを体験できます。初心者の方や、英語ネイティブでない方も大歓迎！",
+        recommended: "ディベート未経験者・英語のスピーキングを伸ばしたい人におすすめ。",
+        organizerMessage: "軽い練習から丁寧に教えます。ぜひ気軽に参加してください！"
+      },
+
+      {
+        id: 2,
+        title: "文字で、遊ぼう！～平安lifeの楽しみ～",
+        presenterLocation: "市川学園 高2フロア",
+        category: "歴史/文化",
+        description: "平安貴族の遊び、特に文字やスポーツに焦点を当てた体験型講座です。平安時代の知識量に関わらず誰でも楽しめるので是非気軽に来てください！",
+        recommended: "平安文化に興味がある人、古典が好きな人にぴったり。",
+        organizerMessage: "実際に書いてみるワークもあります。汚れても良い服で来てね。"
+      },
+
+		{
+        id: 3,
+        title: "DIPLOMACY in ACTION",
+        presenterLocation: "市川学園 高2フロア",
+        category: "模擬国連",
+        description: "「国連」を「模擬する」って何だろう。模擬国連では、学生が外交官になりきり、国際問題を議論します。実際の議論やその仕組みについて紹介する初心者向け模擬国連です！",
+        recommended: "国際関係に興味がある人、討論や交渉を体験したい人。",
+        organizerMessage: "初心者向けの資料も用意しています。ルール説明から丁寧に行います。"
+      },
+
+      {
+        id: 4,
+        title: "Yes or No?みんなで“同意”を話そう！",
+        presenterLocation: "市川学園 高2フロア",
+        category: "性教育",
+        description: "性教育を通して自分らしく生きる明日を探しに行こう！",
+        recommended: "思春期の悩みを持つ人や、性について正しい知識を得たい人に。",
+        organizerMessage: "安心・安全な場作りを重視しています。気になることは聞いてください。"
+      },
+
+		{
+        id: 5,
+        title: "カスタマイズ留学～自分なりの留学への第一歩～",
+        presenterLocation: "市川学園 高2フロア",
+        category: "留学",
+        description: "トビタテ10期生と一緒に自分好みの留学を考えてみましょう。留学に少しでも興味がある人は是非参加してください！新しい来戦の第一歩にピッタリ！",
+        recommended: "自分に合った留学プランを作りたい人。",
+        organizerMessage: "予算や期間に合わせた具体的なプラン作りをサポートします。"
+      },
+
+      {
+        id: 6,
+        title: "ビブリオバトル体験～知らない本に出会おう～",
+        presenterLocation: "市川学園 高2フロア",
+        category: "ビブリオバトル",
+        description: "好きな本を3分で紹介！あなたの言葉で物語の魅力を伝えよう。話すのが苦手でも、新しい本との出会いに。本を通して人とつながる楽しい体験をしよう！",
+        recommended: "本を紹介するのが好きな人、人のおすすめを聞きたい人。",
+        organizerMessage: "短時間で本の魅力を伝えるコツを一緒に学びましょう。"
+      },
+
+      {
+        id: 7,
+        title: "地熱発電のイマ、コレカラ。",
+        presenterLocation: "市川学園 高2フロア",
+        category: "再生可能エネルギー",
+        description: "多くの火山が位置する日本の特性を生かした、今注目の地熱発電。その仕組みや導入の際の課題などについて、楽しいワークショップを通して解説します！",
+        recommended: "環境問題やエネルギーに興味がある人、理科好きな人。",
+        organizerMessage: "専門的な話も噛み砕いて解説します。質問大歓迎です。"
+      },
 
             {
-                id: 2,
-                title: "文字で、遊ぼう！～平安lifeの楽しみ～",
-                presenterLocation: "未定",
-                category: "歴史/文化",
-                description: "平安時代の文字や遊びを、平安ヲタクが紹介！歴史好きとつながろう！"
-            },
-            {
-                id: 3,
-                title: "性×幸せ=ウェルビーイング！？",
-                presenterLocation: "未定",
-                category: "性/人間関係",
-                description: "性教育を通して自分らしく生きる明日を探しに行こう！"
-            },
-            {
-                id: 4,
-                title: "ビブリオバトル体験～知らない本に出会おう～",
-                presenterLocation: "未定",
-                category: "ビブリオバトル",
-                description: "話して、聞いて、本でつながる交流体験を一からやってみませんか！"
-                
-            },
-            {
-                id: 5,
-                title: "地熱発電のイマ、コレカラ。",
-                presenterLocation: "未定",
-                category: "再生可能エネルギー",
-                description: "一緒に日本のエネルギーの未来を考えてみませんか？"
-            },
-            {
-                id: 6,
-                title: "1日アフリカ代表になってみよう！",
-                presenterLocation: "未定",
-                category: "文化",
-                description: "異なる国を担当して、アフリカの社会課題について一緒に議論しよう！"
-            },
-            {
-                id: 7,
-                title: "ホームステイってこんな毎日！",
-                presenterLocation: "未定",
-                category: "留学",
-                description: "私たちの実体験を踏まえてホームステイの魅力や失敗談をお話します！"
-            },
-				{
-                id: 8,
-                title: "カスタマイズ留学～自分なりの留学への第一歩～",
-                presenterLocation: "未定",
-                category: "思想",
-                description: "留学は想像よりも堅くない！私たちと一緒に留学をカスタマイズしてみよう！"
-            },
-				{
-                id: 9,
-                title: "DIPLOMACY in ACTION",
-                presenterLocation: "未定",
-                category: "模擬国連",
-                description: "君も各国代表に！模擬国連ブースで国際問題を体験しよう！"
-            }
+        id: 8,
+        title: "1日アフリカ代表になってみよう！",
+        presenterLocation: "市川学園 高2フロア",
+        category: "社会課題",
+        description: "私が今年8月に参加した模擬アフリカ連合の擬似会を通して、立場の異なる“国の声のでアフリカの社会課題について議論してみませんか？",
+        recommended: "国際協力や社会課題に関心がある人、議論好きな人。",
+        // HTML を含む専用フィールド（ここを編集すれば <p> や <br> が使えます）
+        organizerMessageHtml: `
+          <p>擬似模擬アフリカ連合では、以下の10カ国を対象に、1カ国あたり3〜5人で担当していただく予定です。</p>
+          <p>会議を円滑に進行するため、事前に担当国の希望調査を行います。申し込みの際に、第1希望〜第3希望を選んで回答してください。</p>
+          <ol>
+            <li>エジプト</li>
+            <li>モロッコ</li>
+            <li>コンゴ民主共和国</li>
+            <li>エチオピア</li>
+            <li>ケニア</li>
+            <li>南アフリカ</li>
+            <li>モザンビーク</li>
+            <li>コートジボワール</li>
+            <li>ガーナ</li>
+            <li>ナイジェリア</li>
+          </ol>
+          <p>（注）資料は当日配布します。事前に読みたい人はメールで連絡ください。</p>
+        `
+      },
 
-        ];
+      {
+        id: 9,
+        title: "ホームステイってこんな毎日！",
+        presenterLocation: "市川学園 高2フロア",
+        category: "留学",
+        description: "実体験をもとに、市川学園ニュージーランド研修ホームステイのリアルをお届けします！初めての体験、不安がワクワクに変わる話、してみませんか？現地校の紹介もします！",
+        recommended: "留学を考えている人、異文化体験に興味がある人。",
+        organizerMessage: "体験談を交えたリアルな情報をシェアします。座談会形式です。"
+      }
+    ];
 
     // URLの ?id= を取得
     function getIdFromQuery() {
@@ -172,16 +283,78 @@
         return;
       }
 
+          // --- booths 配列は上で定義済み ---
+
+    // URLの ?id= を取得
+    function getIdFromQuery() {
+      const q = new URLSearchParams(window.location.search);
+      const s = q.get('id');
+      return s ? Number(s) : null;
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, m => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[m]));
+    }
+
+    (function () {
+      const id = getIdFromQuery();
+      const content = document.getElementById('content');
+
+      if (!id) {
+        content.innerHTML = '<div class="notfound">無効なIDです。URLに <code>?id=番号</code> を付けてください。</div>';
+        return;
+      }
+
+      const b = booths.find(x => x.id === id);
+      if (!b) {
+        content.innerHTML = '<div class="notfound">該当するブースが見つかりません。</div>';
+        return;
+      }
+
+      // 通常フィールドはエスケープしておく（XSS対策）
+      const title = b.title ? escapeHtml(b.title) : '';
+      const category = b.category ? escapeHtml(b.category) : '';
+      const presenterLocation = b.presenterLocation ? escapeHtml(b.presenterLocation) : '';
+      const description = b.description ? escapeHtml(b.description) : '';
+      const recommended = b.recommended ? escapeHtml(b.recommended) : '';
+
+      // HTMLを含むことを許すフィールド（もし存在すれば sanitize してそのまま使う）
+      // ※ DOMPurify が読み込まれている前提（head にスクリプト追加）
+      let organizerMessageHtml = '';
+      if (b.organizerMessageHtml) {
+        if (window.DOMPurify && typeof DOMPurify.sanitize === 'function') {
+          organizerMessageHtml = DOMPurify.sanitize(b.organizerMessageHtml, {ALLOWED_TAGS: ['b','i','em','strong','p','br','ul','ol','li','ol','li','a']});
+        } else {
+          // DOMPurify がない場合は最小限の対応として escape したプレーンテキストを表示
+          organizerMessageHtml = escapeHtml(b.organizerMessageHtml);
+        }
+      } else {
+        // 既存のテキストプロパティのみある場合（HTML 非許可）
+        organizerMessageHtml = b.organizerMessage ? escapeHtml(b.organizerMessage) : '';
+      }
+
+      // content を組み立て（organizerMessageHtml は sanitized されているためそのまま挿入）
       content.innerHTML = `
-        <div class="title">${escapeHtml(b.title)}</div>
-        <div class="meta">
-          カテゴリ: ${escapeHtml(b.category)} ・ 場所: ${escapeHtml(b.location)} ・ 発表場所: ${escapeHtml(b.presenterLocation)}
-        </div>
-        <div class="desc">${escapeHtml(b.description)}</div>
-        <hr style="margin:1rem 0;border:none;border-top:1px solid #EEF2FF;">
-        <div style="color:#475569;font-size:0.95rem;">
-          体験タイプ: <strong>${escapeHtml(b.experienceType)}</strong>
-        </div>
+        <h2 class="title">${title}</h2>
+        <div class="meta">カテゴリ: ${category}</div>
+        <div class="meta">発表場所: ${presenterLocation}</div>
+
+        <hr style="margin:0.75rem 0;border:none;border-top:1px solid #EEF2FF;">
+
+        <h3 class="subheading">【ブース紹介】</h3>
+        <div class="field-content">${description}</div>
+
+        <h3 class="subheading">【こんな人におすすめ！】</h3>
+        <div class="field-content">${recommended}</div>
+
+        <h3 class="subheading">【ブース運営者より】</h3>
+        <div class="field-content">${organizerMessageHtml}</div>
       `;
     })();
   </script>
