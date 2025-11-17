@@ -398,34 +398,96 @@
     margin-top: 0.6rem;      /* ヒーロー内での余白 */
 }
 
-/* フォーム専用色（SNS と差をつける）*/
+/* ---------- 強調 CTA（ヒーロー内のフォーム） ---------- */
 .contact-link--form {
-    color: rgba(0, 85, 51, 0.95); /* 例：ダークグリーン */
-    border-bottom-color: rgba(0,85,51,0.12);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: 999px;                     /* pill 型 */
+  color: #fff !important;                   /* 文字は白で統一 */
+  background: linear-gradient(90deg, #06b39e 0%, #0a9a6b 50%, #038f63 100%); /* 鮮やかグリーン系 */
+  box-shadow: 0 8px 24px rgba(3,143,99,0.18), inset 0 -2px 8px rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  font-weight: 800;
+  font-size: 1.125rem;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms ease, filter 220ms ease;
+  will-change: transform;
+  /* 視認性のために横幅を確保（小画面では自動） */
+  min-width: 260px;
 }
 
-.contact-link--form .icon svg { 
-    width: 100%;
-    height: 100%;
-    color: inherit;        /* stroke:currentColor を使っているので親の color を継承 */
-    stroke: rgba(0,85,51,0.95);
-    fill: transparent;
+/* アイコンを白抜き丸で強調 */
+.contact-link--form .icon {
+  width: 2.2rem;
+  height: 2.2rem;
+  background: rgba(255,255,255,0.12);
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 220ms ease, background 220ms ease;
 }
 
-/* ホバー時の色変化 */
-.contact-link--form:hover {
-    color: #05642f;
-    border-bottom-color: rgba(5,100,47,0.9);
-    box-shadow: 0 8px 20px rgba(5,100,47,0.06);
-}
-.contact-link--form:hover .icon { transform: scale(1.06); }
+/* SVG の色は currentColor を使う想定 → 白にする */
+.contact-link--form .icon svg { width: 1.2rem; height: 1.2rem; fill: #fff; stroke: rgba(255,255,255,0.9); }
 
-/* 小さめ画面での調整（必要なら） */
-@media (max-width:420px) {
-    .hero-contact { margin-top: 0.4rem; }
-    .contact-link .label { font-size: 1rem; }
+/* ホバー／フォーカス時 */
+.contact-link--form:hover,
+.contact-link--form:focus {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 18px 40px rgba(3,143,99,0.22), 0 2px 8px rgba(0,0,0,0.06);
+  filter: saturate(1.05);
+  outline: none;
 }
 
+/* アイコンだけ少し拡大 */
+.contact-link--form:hover .icon { transform: scale(1.08); background: rgba(255,255,255,0.16); }
+
+/* 強調用の小さなバッジ（任意） */
+.contact-link--form .cta-badge {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 0.75rem;
+  padding: 0.18rem 0.45rem;
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.95);
+  border-radius: 999px;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+/* エントランス（ページ表示時にふわっと出す）*/
+@keyframes ctaEntrance {
+  from { opacity: 0; transform: translateY(8px) scale(.99); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.contact-link--form {
+  animation: ctaEntrance 420ms cubic-bezier(.2,.9,.2,1) both;
+}
+
+/* モバイル向け調整 */
+@media (max-width: 420px) {
+  .contact-link--form {
+    min-width: 0;
+    width: calc(100% - 2.5rem); /* 画面端に余白を残す */
+    justify-content: center;
+    padding: 0.7rem 0.95rem;
+    font-size: 1.0rem;
+  }
+  .contact-link--form .icon { width: 1.75rem; height: 1.75rem; }
+  .contact-link--form .cta-badge { display: none; } /* モバイルではバッジ非表示 */
+}
+
+/* キーボードフォーカス向上 */
+.contact-link--form:focus-visible {
+  outline: 3px solid rgba(3,143,99,0.16);
+  outline-offset: 4px;
+}
 
     </style>
 </head>
@@ -503,25 +565,26 @@
             <p class="hero-description">
                 各ブースでは、発表希望者が自身の興味のある分野について参加者に向けて発表を行います。<br>
                 一方通行な発表にとどまらず、参加者との交流や体験活動も実施いたします。<br>
-					ブースの参加は、以下の申し込みフォームよりご応募ください。
+					<b>ブースの参加は、以下の申し込みフォームよりご応募ください。</b>
             </p>
-<!-- 置き換え：GoogleフォームをSNSと同じUIにする -->
+<!-- 置き換え：強調されたフォーム CTA（ヒーロー内） -->
 <ul class="contact-list hero-contact" aria-label="ブース参加申し込み">
   <li>
     <a class="contact-link contact-link--form"
        href="https://forms.gle/KKgWxQY1hShqEPCa8"
        target="_blank" rel="noopener noreferrer"
        aria-label="ブース参加申し込みフォーム（新しいタブで開く）">
-      <!-- フォーム用のインラインSVG（書類アイコン） -->
       <span class="icon" aria-hidden="true">
+        <!-- 書類アイコン（白抜きで見栄え良く） -->
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
-          <path d="M6 2h7l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" fill="#ffffff" />
-          <path d="M13 2v5h5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M8 11h8M8 15h8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M6 2h7l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" fill="#fff" opacity="0.06"/>
+          <path d="M13 2v5h5" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 11h8M8 15h8" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
         </svg>
       </span>
 
       <span class="label">ブース参加申し込みフォーム</span>
+      <span class="cta-badge">申込はこちら</span>
     </a>
   </li>
 </ul>
@@ -796,7 +859,7 @@
                 title: "ブース参加者募集中",
                 date: "2025-11-15",
                 category: "募集",
-                excerpt: "各ブースの参加者を募集しています。申込み締切は12月11日です。こちらのGoogleフォームよりお申し込みください。→"
+                excerpt: "各ブースの参加者を募集しています。申込み締切は12月11日です。こちらのGoogleフォームよりお申し込みください→"
             },
             {
                 id: 2,
