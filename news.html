@@ -6,16 +6,23 @@
   <title>ニュース詳細</title>
 
   <style>
+    /* 指定フォント（明朝系） */
     body {
-      font-family: system-ui, "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+      font-family: "游明朝", "Yu Mincho", "Hiragino Mincho ProN", "MS PMincho", serif;
       padding: 2rem;
       background: #fff;
       color: #111;
+      position: relative;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .container {
       max-width: 760px;
       margin: 0 auto;
+      position: relative;
+      z-index: 2; /* 背景の水玉より前に */
     }
 
     a.back {
@@ -31,12 +38,14 @@
       border-radius: 8px;
       padding: 1.25rem;
       box-shadow: 0 6px 18px rgba(16, 24, 40, 0.03);
+      background-color: rgba(255,255,255,0.96);
     }
 
     .title {
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       font-weight: 800;
       margin-bottom: 0.5rem;
+      color: rgba(0,0,0,0.9);
     }
 
     .meta {
@@ -48,6 +57,8 @@
     .desc {
       line-height: 1.8;
       color: #374151;
+      margin-top: 0.75rem;
+      font-size: 1rem;
     }
 
     .notfound {
@@ -55,11 +66,54 @@
       font-weight: 700;
       padding: 1rem 0;
     }
+
+    code {
+      background: #F8FAFC;
+      padding: 0.1rem 0.3rem;
+      border-radius: 4px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+    }
+
+    /* カラフルで濃い水玉背景（多め・はっきり） */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle at 6% 8%, rgba(75,107,255,0.18) 0 26px, transparent 27px),
+        radial-gradient(circle at 22% 16%, rgba(255,107,165,0.16) 0 36px, transparent 37px),
+        radial-gradient(circle at 40% 6%, rgba(96,194,129,0.14) 0 22px, transparent 23px),
+        radial-gradient(circle at 58% 18%, rgba(255,195,70,0.14) 0 28px, transparent 29px),
+        radial-gradient(circle at 78% 8%, rgba(153,102,255,0.12) 0 20px, transparent 21px),
+        radial-gradient(circle at 10% 60%, rgba(75,107,255,0.12) 0 40px, transparent 41px),
+        radial-gradient(circle at 28% 78%, rgba(255,107,165,0.10) 0 30px, transparent 31px),
+        radial-gradient(circle at 48% 50%, rgba(255,195,70,0.10) 0 60px, transparent 61px),
+        radial-gradient(circle at 66% 62%, rgba(96,194,129,0.10) 0 34px, transparent 35px),
+        radial-gradient(circle at 86% 72%, rgba(153,102,255,0.09) 0 26px, transparent 27px),
+        radial-gradient(circle at 50% 85%, rgba(75,107,255,0.08) 0 44px, transparent 45px);
+      background-repeat: no-repeat;
+      background-size: cover;
+      mix-blend-mode: normal;
+    }
+
+    @media (max-width: 640px) {
+      .title { font-size: 1.4rem; }
+      .desc { font-size: 0.98rem; }
+      body::before {
+        background-image:
+          radial-gradient(circle at 8% 6%, rgba(75,107,255,0.20) 0 18px, transparent 19px),
+          radial-gradient(circle at 28% 12%, rgba(255,107,165,0.18) 0 22px, transparent 23px),
+          radial-gradient(circle at 60% 10%, rgba(96,194,129,0.14) 0 18px, transparent 19px),
+          radial-gradient(circle at 82% 20%, rgba(255,195,70,0.12) 0 24px, transparent 25px),
+          radial-gradient(circle at 50% 70%, rgba(75,107,255,0.09) 0 36px, transparent 37px);
+      }
+    }
+
   </style>
 </head>
-<footer style="text-align:center; font-size:0.8rem; color:#666; margin:2rem;">
-<p>最終更新日：2025/11/12</p>
-</footer>
+
 <body>
   <div class="container">
     <a class="back" href="index.html">&larr; 戻る</a>
@@ -69,28 +123,116 @@
     </div>
   </div>
 
+  <footer style="text-align:center; font-size:0.8rem; color:#666; margin:2rem; position: relative; z-index:2;">
+    <p>最終更新日：2025/11/17</p>
+  </footer>
+
   <script>
+    // --- ニュースデータ（ここに追加でニュースを足してください） ---
     const news = [
-      { id: 1, title: "漁火の会2025 開催決定！", date: "2025-11-15", category: "お知らせ", excerpt: "漁火の会2025を12月20日に開催いたします。多数のご参加をお待ちしています。" },
-      { id: 2, title: "ブース参加者募集中", date: "2025-11-10", category: "募集", excerpt: "発表・体験ブースの参加者を募集しています。申込み締切は11月30日です。" },
-      { id: 3, title: "駐車場のご案内", date: "2025-11-08", category: "アクセス", excerpt: "当日の駐車場利用についてご案内いたします。事前予約制となっております。" },
-      { id: 4, title: "新型コロナ対策について", date: "2025-11-05", category: "重要", excerpt: "感染防止対策を実施の上、開催いたします。マスク着用にご協力ください。" }
+      {
+        id: 1,
+        title: "ブース参加者募集中",
+        date: "2025-11-15",
+        category: "募集",
+        // HTMLを含む場合は excerptHtml を使う（ここは内包された <p> とリンクを想定）
+        excerptHtml: `
+          <p>各ブースの参加者を募集しています。申込み締切は12月11日です。こちらのGoogleフォームよりお申し込みください。</p>
+          <p><a href="https://forms.gle/KKgWxQY1hShqEPCa8">申込みフォーム（Googleフォーム）</a></p>
+        `
+      },
+      {
+        id: 2,
+        title: "漁火の会2025 開催決定！",
+        date: "2025-11-10",
+        category: "お知らせ",
+        // プレーンテキスト例（HTMLタグを含まない）
+        excerpt: "漁火の会2025は12月20日に開催いたします。多数のご参加をお待ちしています。"
+      }
     ];
 
+    // URL の ?id= を取得
     function getIdFromQuery() {
       const q = new URLSearchParams(window.location.search);
       const s = q.get('id');
       return s ? Number(s) : null;
     }
 
+    // テキスト用エスケープ（XSS対策）
     function escapeHtml(s) {
-      return String(s).replace(/[&<>"']/g, m => ({
+      return String(s === undefined || s === null ? '' : s).replace(/[&<>"']/g, m => ({
         '&': '&amp;',
         '<': '&lt;',
         '>': '&gt;',
         '"': '&quot;',
         "'": '&#39;'
       }[m]));
+    }
+
+    // 簡易サニタイズ関数：DOMParser を使って許可タグのみ残す
+    // 許可タグ: p, br, b, i, strong, em, ul, ol, li, a, u
+    function sanitizeHTML(input) {
+      if (!input) return '';
+      // 1) <script> を完全に除去
+      input = input.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '');
+      // 2) parse
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(input, 'text/html');
+      const allowedTags = new Set(['p','br','b','i','strong','em','ul','ol','li','a','u']);
+
+      function clean(node) {
+        const children = Array.from(node.childNodes);
+        for (const child of children) {
+          if (child.nodeType === Node.ELEMENT_NODE) {
+            const tag = child.tagName.toLowerCase();
+            if (!allowedTags.has(tag)) {
+              // タグを外して中身だけ残す
+              const parent = child.parentNode;
+              while (child.firstChild) parent.insertBefore(child.firstChild, child);
+              parent.removeChild(child);
+            } else {
+              // 属性フィルタリング
+              const attrs = Array.from(child.attributes || []);
+              for (const a of attrs) {
+                const name = a.name.toLowerCase();
+                const val = a.value;
+                // on* ハンドラは削除
+                if (name.startsWith('on')) {
+                  child.removeAttribute(name);
+                  continue;
+                }
+                // javascript:, data: の href は削除
+                if (/^\s*javascript:/i.test(val) || /^\s*data:/i.test(val)) {
+                  child.removeAttribute(name);
+                  continue;
+                }
+                // a の href は https/http/mailto/tel のみ許可
+                if (tag === 'a' && name === 'href') {
+                  if (!/^(https?:|mailto:|tel:)/i.test(val)) {
+                    child.removeAttribute('href');
+                  } else {
+                    child.setAttribute('target', '_blank');
+                    child.setAttribute('rel', 'noopener noreferrer');
+                  }
+                  continue;
+                }
+                // その他の属性は削除（style等も削除）
+                child.removeAttribute(name);
+              }
+              // 再帰
+              clean(child);
+            }
+          } else if (child.nodeType === Node.TEXT_NODE) {
+            // テキストはそのまま
+          } else {
+            // コメントなどは削除
+            child.parentNode.removeChild(child);
+          }
+        }
+      }
+
+      clean(doc.body);
+      return doc.body.innerHTML || '';
     }
 
     (function () {
@@ -102,18 +244,36 @@
         return;
       }
 
-      const n = news.find(x => x.id === id);
-      if (!n) {
+      const item = news.find(x => x.id === id);
+      if (!item) {
         content.innerHTML = '<div class="notfound">該当するニュースが見つかりません。</div>';
         return;
       }
 
+      // 表示するフィールドを安全に処理
+      const title = item.title ? escapeHtml(item.title) : '';
+      const date = item.date ? escapeHtml(item.date) : '';
+      const category = item.category ? escapeHtml(item.category) : '';
+
+      // excerptHtml があればサニタイズしてそのまま使う。なければ excerpt(テキスト) をエスケープして <p> で包む
+      let bodyHtml = '';
+      if (item.excerptHtml) {
+        bodyHtml = sanitizeHTML(item.excerptHtml);
+      } else if (item.excerpt) {
+        bodyHtml = '<p>' + escapeHtml(item.excerpt) + '</p>';
+      } else {
+        bodyHtml = '<p>本文がありません。</p>';
+      }
+
+      // 出力
       content.innerHTML = `
-        <div class="title">${escapeHtml(n.title)}</div>
+        <div class="title">${title}</div>
         <div class="meta">
-          カテゴリ: ${escapeHtml(n.category)} ・ 日付: ${escapeHtml(n.date)}
-        </div>
-        <div class="desc">${escapeHtml(n.excerpt)}</div>
+			<p>カテゴリ: ${category}</p>
+			<p>日付: ${date}</p>
+			</div>
+        <hr style="margin:0.75rem 0;border:none;border-top:1px solid #EEF2FF;">
+        <div class="desc">${bodyHtml}</div>
       `;
     })();
   </script>
