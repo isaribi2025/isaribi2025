@@ -393,6 +393,40 @@
     border-bottom-color: rgba(75,107,255,0.9);
 }
 
+/* --- ヒーロー内のフォームリンク用微調整 --- */
+.hero-contact {
+    margin-top: 0.6rem;      /* ヒーロー内での余白 */
+}
+
+/* フォーム専用色（SNS と差をつける）*/
+.contact-link--form {
+    color: rgba(0, 85, 51, 0.95); /* 例：ダークグリーン */
+    border-bottom-color: rgba(0,85,51,0.12);
+}
+
+.contact-link--form .icon svg { 
+    width: 100%;
+    height: 100%;
+    color: inherit;        /* stroke:currentColor を使っているので親の color を継承 */
+    stroke: rgba(0,85,51,0.95);
+    fill: transparent;
+}
+
+/* ホバー時の色変化 */
+.contact-link--form:hover {
+    color: #05642f;
+    border-bottom-color: rgba(5,100,47,0.9);
+    box-shadow: 0 8px 20px rgba(5,100,47,0.06);
+}
+.contact-link--form:hover .icon { transform: scale(1.06); }
+
+/* 小さめ画面での調整（必要なら） */
+@media (max-width:420px) {
+    .hero-contact { margin-top: 0.4rem; }
+    .contact-link .label { font-size: 1rem; }
+}
+
+
     </style>
 </head>
 
@@ -467,11 +501,30 @@
             </div>
 
             <p class="hero-description">
-                各ブースでは、発表希望者が自身の興味のある分野について参加者に向けて発表を行います。
-                単なる発表にとどまらず、参加者との交流や体験活動も実施いたします。
+                各ブースでは、発表希望者が自身の興味のある分野について参加者に向けて発表を行います。<br>
+                一方通行な発表にとどまらず、参加者との交流や体験活動も実施いたします。<br>
+					ブースの参加は、以下の申し込みフォームよりご応募ください。
             </p>
-				<p class="hero-description">
-					 ブース参加申し込みはこちら：<a href="https://forms.gle/KKgWxQY1hShqEPCa8"><u>https://forms.gle/KKgWxQY1hShqEPCa8</u></a>
+<!-- 置き換え：GoogleフォームをSNSと同じUIにする -->
+<ul class="contact-list hero-contact" aria-label="ブース参加申し込み">
+  <li>
+    <a class="contact-link contact-link--form"
+       href="https://forms.gle/KKgWxQY1hShqEPCa8"
+       target="_blank" rel="noopener noreferrer"
+       aria-label="ブース参加申し込みフォーム（新しいタブで開く）">
+      <!-- フォーム用のインラインSVG（書類アイコン） -->
+      <span class="icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+          <path d="M6 2h7l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" fill="#ffffff" />
+          <path d="M13 2v5h5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 11h8M8 15h8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </span>
+
+      <span class="label">ブース参加申し込みフォーム</span>
+    </a>
+  </li>
+</ul>
 				</p>
         </div>
     </section>
@@ -544,7 +597,7 @@
     <section class="booths" id="booths">
         <div class="booths-container">
             <h2 class="section-title">ブース一覧</h2>
-<p class="hero-description" style="text-align: center">
+<p class="hero-description" style="text-align: center; padding: 1rem">
                 中2～高2生徒が各ブースを企画・運営しています。
             </p>
             <div class="booth-grid" id="boothGrid"></div>
@@ -599,7 +652,7 @@
 
 <footer style="text-align:center; font-size:0.8rem; color:#666; margin:2rem;">
 <p>© 漁火の会 2025 — All rights reserved.</p>
-<p>最終更新日：2025/11/16</p>
+<p>最終更新日：2025/11/17</p>
 </footer>
 
     <script>
@@ -738,20 +791,21 @@
 
         // News data
         const news = [
-            {
+				{
                 id: 1,
-                title: "漁火の会2025 開催決定！",
+                title: "ブース参加者募集中",
                 date: "2025-11-15",
-                category: "お知らせ",
-                excerpt: "漁火の会2025は12月20日に開催いたします。多数のご参加をお待ちしています。"
+                category: "募集",
+                excerpt: "各ブースの参加者を募集しています。申込み締切は12月11日です。こちらのGoogleフォームよりお申し込みください。<u>https://forms.gle/KKgWxQY1hShqEPCa8</u>"
             },
             {
                 id: 2,
-                title: "ブース参加者募集中",
+                title: "漁火の会2025 開催決定！",
                 date: "2025-11-10",
-                category: "募集",
-                excerpt: "各ブースの参加者を募集しています。申込み締切は12月11日です。こちらのGoogleフォームよりお申し込みください。<u>https://forms.gle/KKgWxQY1hShqEPCa8</u>"
+                category: "お知らせ",
+                excerpt: "漁火の会2025は12月20日に開催いたします。多数のご参加をお待ちしています。"
             }
+            
         ];
 
         // Render booths - link to placeholder booth page
