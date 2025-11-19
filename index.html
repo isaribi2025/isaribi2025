@@ -17,12 +17,10 @@
             box-sizing: border-box;
         }
 
-        /* NOTE: ここで軽微に下部余白を確保（下部固定バナー分）。被さる感じは残すため完全には広げていません。 */
         body {
             font-family: "游明朝", "Yu Mincho", "Hiragino Mincho ProN", "MS PMincho", serif;
             color: rgba(0, 0, 0, 0.9);
             min-height: 100vh;
-            padding-bottom: 84px; /* 下部固定広告のための余白（被さり分を残す） */
         }
 
         a { color: inherit; text-decoration: none; }
@@ -492,7 +490,7 @@
 }
 
 /* ============================
-   AD CAROUSEL (追加部分・上部)
+   AD CAROUSEL (追加部分)
    ============================ */
 .ad-carousel {
   position: relative;
@@ -578,128 +576,6 @@
 
 /* ホバーで軽く拡大 */
 .ad-carousel:hover { transform: translateY(-6px); transition: transform 180ms ease; }
-
-/* ============================
-   AD BOTTOM (追加部分・固定下部バナー)
-   ============================ */
-#adBottomWrap {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 12px; /* ビューポート底から少し上げる（下部に少し被さる見た目） */
-  z-index: 999;
-  pointer-events: auto;
-}
-
-/* コンテナ本体 */
-.ad-bottom {
-  width: calc(100% - 32px);
-  max-width: 980px;
-  height: 120px;
-  border-radius: 12px;
-  overflow: hidden;
-  background: linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.04));
-  box-shadow: 0 18px 40px rgba(0,0,0,0.18);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-/* スライド（上部と別にクラス名） */
-.ad-bottom-slides { position: relative; width: 100%; height: 100%; }
-.ad-bottom-slide {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  transition: opacity 600ms ease, transform 600ms ease;
-  opacity: 0;
-  transform: translateY(6px);
-}
-
-/* 表示中 */
-.ad-bottom-slide.active { opacity: 1; transform: translateY(0); z-index: 2; }
-
-/* キャプション（小さめ） */
-.ad-bottom-caption {
-  background: linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.2));
-  color: #fff;
-  padding: 0.5rem 0.9rem;
-  border-radius: 8px;
-  font-weight: 800;
-  font-size: 1rem;
-  text-align: center;
-  max-width: 88%;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.22);
-}
-
-/* ドット（下）と閉じるボタン */
-.ad-bottom-dots {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 8px;
-  display: flex;
-  gap: 8px;
-  z-index: 5;
-}
-.ad-bottom-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.7);
-  border: 1px solid rgba(0,0,0,0.08);
-  cursor: pointer;
-}
-.ad-bottom-dot.active { transform: scale(1.15); background: #fff; }
-
-/* 閉じるボタン */
-.ad-bottom-close {
-  position: absolute;
-  right: 8px;
-  top: 8px;
-  z-index: 10;
-  background: rgba(255,255,255,0.85);
-  border: none;
-  border-radius: 6px;
-  padding: 6px 8px;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-}
-
-/* 再表示ボタン（非表示時に画面右下に現れる） */
-#adBottomReopen {
-  position: fixed;
-  right: 18px;
-  bottom: 18px;
-  z-index: 1000;
-  display: none;
-  background: #4B6BFF;
-  color: #fff;
-  border: none;
-  padding: 10px 12px;
-  border-radius: 999px;
-  box-shadow: 0 8px 20px rgba(75,107,255,0.18);
-  cursor: pointer;
-}
-
-/* 小画面微調整 */
-@media (max-width: 640px) {
-  .ad-bottom { height: 96px; max-width: calc(100% - 24px); }
-  .ad-bottom-caption { font-size: 0.95rem; }
-  body { padding-bottom: 72px; }
-}
-
-/* ============================
-   既存の他スタイル以下はそのまま...
-   ============================ */
 
     </style>
 </head>
@@ -801,7 +677,7 @@
   </li>
 </ul>
 
-<!-- ========== ここからバナー広告カルーセル（上部・既存） ========== -->
+<!-- ========== ここからバナー広告カルーセル（追加） ========== -->
 <div class="ad-carousel" id="adCarousel" role="region" aria-label="広告バナー" tabindex="0">
   <div class="ad-slides" id="adSlides">
     <!-- 各スライドは data-bg 属性で背景を指定（仮画像）。キャッチコピーは .ad-caption 内に記述 -->
@@ -825,7 +701,7 @@
   <!-- ドットナビ -->
   <div class="ad-dots" id="adDots" aria-hidden="false"></div>
 </div>
-<!-- ========== ここまでバナー広告カルーセル（上部） ========== -->
+<!-- ========== ここまでバナー広告カルーセル ========== -->
 
     </section>
 
@@ -979,34 +855,6 @@
 <p>© 漁火の会 2025 — All rights reserved.</p>
 <p>最終更新日：2025/11/18</p>
 </footer>
-
-<!-- ===============================
-     下部固定バナー（ページに少し被さる / スクロールしても見える）
-     =============================== -->
-<div id="adBottomWrap" aria-live="polite">
-  <div class="ad-bottom" id="adBottom" role="region" aria-label="下部広告バナー" tabindex="0">
-    <button class="ad-bottom-close" id="adBottomClose" aria-label="この広告を閉じる">✕</button>
-
-    <div class="ad-bottom-slides" id="adBottomSlides">
-      <div class="ad-bottom-slide active" data-bg="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1600&q=70" aria-hidden="false">
-        <div class="ad-bottom-caption">最後にもう一度！特別ワークショップ受付中</div>
-      </div>
-
-      <div class="ad-bottom-slide" data-bg="https://images.unsplash.com/photo-1493558103817-58b2924bce98?auto=format&fit=crop&w=1600&q=70" aria-hidden="true">
-        <div class="ad-bottom-caption">友達と来るとさらに楽しい — 参加無料</div>
-      </div>
-
-      <div class="ad-bottom-slide" data-bg="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=70" aria-hidden="true">
-        <div class="ad-bottom-caption">出展者インタビュー公開中！</div>
-      </div>
-    </div>
-
-    <div class="ad-bottom-dots" id="adBottomDots" aria-hidden="false"></div>
-  </div>
-</div>
-
-<!-- 再表示ボタン（閉じたときに表示） -->
-<button id="adBottomReopen" aria-label="広告を再表示する">広告を表示</button>
 
     <script>
         // Drawer / hamburger behavior
@@ -1210,7 +1058,7 @@
         }
 
         /* ===========================
-           AD CAROUSEL 動作スクリプト（上部）
+           AD CAROUSEL 動作スクリプト（追加）
            - 自動切替、ホバーで一時停止、ドットで選択可能
            =========================== */
         (function() {
@@ -1287,106 +1135,6 @@
           });
 
           // 初期開始
-          show(0);
-          startInterval();
-        })();
-
-        /* ===========================
-           AD BOTTOM 動作スクリプト（下部固定バナー）
-           - 自動切替、ホバーで一時停止、ドットで選択可能
-           - 閉じるボタンで非表示、再表示ボタンあり
-           =========================== */
-        (function() {
-          const wrap = document.getElementById('adBottomWrap');
-          const container = document.getElementById('adBottom');
-          const slidesContainer = document.getElementById('adBottomSlides');
-          if (!container || !slidesContainer) return;
-
-          const slides = Array.from(slidesContainer.querySelectorAll('.ad-bottom-slide'));
-          const dotsContainer = document.getElementById('adBottomDots');
-          const reopenBtn = document.getElementById('adBottomReopen');
-          const closeBtn = document.getElementById('adBottomClose');
-          let current = 0;
-          let intervalId = null;
-          const intervalMs = 4800;
-
-          // 背景反映とドット作成
-          slides.forEach((slide, i) => {
-            const bg = slide.getAttribute('data-bg');
-            if (bg) slide.style.backgroundImage = `linear-gradient(180deg, rgba(0,0,0,0.22), rgba(0,0,0,0.12)), url('${bg}')`;
-            const dot = document.createElement('button');
-            dot.type = 'button';
-            dot.className = 'ad-bottom-dot' + (i === 0 ? ' active' : '');
-            dot.setAttribute('aria-label', `下部広告 ${i+1} を表示`);
-            dot.addEventListener('click', () => goTo(i));
-            dotsContainer.appendChild(dot);
-          });
-          const dots = Array.from(dotsContainer.querySelectorAll('.ad-bottom-dot'));
-
-          function show(index) {
-            slides.forEach((s, i) => {
-              const active = i === index;
-              s.classList.toggle('active', active);
-              s.setAttribute('aria-hidden', !active);
-            });
-            dots.forEach((d, i) => d.classList.toggle('active', i === index));
-            current = index;
-          }
-
-          function next() {
-            show((current + 1) % slides.length);
-          }
-
-          function goTo(i) {
-            show(i);
-            restartInterval();
-          }
-
-          function startInterval() {
-            if (intervalId) return;
-            intervalId = setInterval(next, intervalMs);
-          }
-
-          function stopInterval() {
-            if (!intervalId) return;
-            clearInterval(intervalId);
-            intervalId = null;
-          }
-
-          function restartInterval() {
-            stopInterval();
-            startInterval();
-          }
-
-          // ホバー / フォーカスで一時停止
-          container.addEventListener('mouseenter', stopInterval);
-          container.addEventListener('mouseleave', startInterval);
-          container.addEventListener('focusin', stopInterval);
-          container.addEventListener('focusout', startInterval);
-
-          // キーボード左右操作
-          container.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight') { next(); restartInterval(); }
-            if (e.key === 'ArrowLeft') { show((current - 1 + slides.length) % slides.length); restartInterval(); }
-          });
-
-          // Close / Reopen
-          closeBtn.addEventListener('click', () => {
-            // hide wrap and show reopen button
-            if (wrap) wrap.style.display = 'none';
-            reopenBtn.style.display = 'block';
-            stopInterval();
-          });
-
-          reopenBtn.addEventListener('click', () => {
-            if (wrap) wrap.style.display = '';
-            reopenBtn.style.display = 'none';
-            startInterval();
-            // focus the ad for accessibility
-            container.focus();
-          });
-
-          // 初期表示
           show(0);
           startInterval();
         })();
