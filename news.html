@@ -124,7 +124,7 @@
   </div>
 
   <footer style="text-align:center; font-size:0.8rem; color:#666; margin:2rem; position: relative; z-index:2;">
-    <p>最終更新日：2025/11/17</p>
+    <p>最終更新日：2025/12/02</p>
   </footer>
 
   <script>
@@ -132,17 +132,53 @@
     const news = [
       {
         id: 1,
-        title: "ブース参加者募集中",
+        title: "ワークショップへの欠席/遅刻/早退連絡について",
+        date: "2025-11-15",
+        category: "お願い",
+        // HTMLを含む場合は excerptHtml を使う（ここは内包された <p> とリンクを想定）
+        excerptHtml: `
+          <p>ワークショップ①に参加できないなど、欠席/遅刻/早退が事前にわかっている場合は、申し込みフォームの1番最後のページ<b>「漁火の会についての質問や備考 / Question or remarks about the event」</b>の回答にご記入くださいますよう、お願いいたします。</p>
+        `
+      },
+      {
+        id: 2,
+        title: "Googleフォームの記入について",
+        date: "2025-12-02",
+        category: "フォーム",
+        // HTMLを含む場合は excerptHtml を使う（ここは内包された <p> とリンクを想定）
+        excerptHtml: `
+          <p>各ブースの参加者を募集しています。申込み締切は12月11日です。こちらのGoogleフォームよりお申し込みください。</p>
+          <p><a href="https://forms.gle/KKgWxQY1hShqEPCa8">申し込みフォーム（Googleフォーム）</a></p>
+				<p>
+				なお回答に際し、以下の点にご注意ください。</p>
+				<ul>
+    <li>ブースは第4希望まで選択出来ます。</li>
+<li><b>「8. 1日アフリカ代表になってみよう！ / Represent an African country for a day!」</b>を選んだ場合<br>→次ページの希望国調査にご回答ください。</li>
+<li><b>「8. 1日アフリカ代表になってみよう！ / Represent an African country for a day!」</b>を選んで<b><u>いない</u></b>場合<br>→次ページの希望国調査に回答していただく必要はありません。そのまま「次へ」を押してください。
+</li>
+<li><b>「6. ビブリオバトル体験-知らない本に出会おう / Biblio battle -Discover a new book-」</b>を選んだ方は、HPのブース紹介欄に載っている持ち物をご確認ください。
+</li>
+<li>
+<b>「7. 地熱発電のイマ、コレカラ。/ The present and future of Geothermal power generation」</b>を選んだ方は、HPのブース紹介欄に載っているリンクより事前アンケートのご協力をお願いいたします。<a href="https://forms.gle/8u1xdW7o5dKkxrEP6">（再掲）事前アンケート（7）</a>
+</li>
+</ul>
+</p>
+<p>漁火の会HPでは、随時情報を更新しています。</p>
+        `
+      },
+      {
+        id: 3,
+        title: "Googleフォームについて",
         date: "2025-11-15",
         category: "募集",
         // HTMLを含む場合は excerptHtml を使う（ここは内包された <p> とリンクを想定）
         excerptHtml: `
           <p>各ブースの参加者を募集しています。申込み締切は12月11日です。こちらのGoogleフォームよりお申し込みください。</p>
-          <p><a href="https://forms.gle/KKgWxQY1hShqEPCa8">申込みフォーム（Googleフォーム）</a></p>
+          <p><a href="https://forms.gle/KKgWxQY1hShqEPCa8">申し込みフォーム（Googleフォーム）</a></p>
         `
       },
       {
-        id: 2,
+        id: 4,
         title: "漁火の会2025 開催決定！",
         date: "2025-11-10",
         category: "お知らせ",
