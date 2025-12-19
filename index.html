@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>漁火の会 2025</title>
-	 <meta name="description" content="「漁火の会 2025」の公式サイトです。ニュース、スケジュール、各ブースの情報、参加申し込み方法などをご案内しています。">
+	 <meta name="description" content="「漁火の会2025」では、12月20日に市川学園にて開催される、発表者が参加者に対し興味のある分野について対話するワークショップを行います。">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
@@ -777,7 +777,8 @@
                         <div class="value" id="cd-seconds">--</div>
                         <div class="label">秒</div>
                     </div>
-				</div>
+                </div>
+                
 
                 <!-- カウントダウン終了後に表示する要素 -->
                 <div class="countdown-ended" id="countdownEnded" aria-hidden="true">
@@ -1165,6 +1166,13 @@
 
         // News data
         const news = [
+{
+                id: 6,
+                title: "本日開催について※5:00時点",
+                date: "2025-12-20",
+                category: "お知らせ",
+                excerpt: "本日、「漁火の会2025」は予定通り開催いたします。9:00受付開始、→"
+            },
 				{
                 id: 5,
                 title: "ブース参加申し込み締め切り延長について",
@@ -1232,7 +1240,7 @@
 
             list.innerHTML = news.map(item => {
                 // 対象ニュース（締め切り延長）の判定
-                const isExtended = /締め切り延長/.test(item.title) || /締め切り延長/.test(item.excerpt);
+                const isExtended = /本日開催/.test(item.title) || /本日開催/.test(item.excerpt);
 
                 // highlight と New はイベント開始前のみ表示
                 const showHighlight = isExtended && !eventStarted;
