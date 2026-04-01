@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>尋問ゲーム</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, 'Helvetica Neue', sans-serif; background: #f8f7f4; color: #1a1a1a; min-height: 100vh; padding: 1.5rem 1rem; }
+  #app { max-width: 660px; margin: 0 auto; }
+
+  .phase { display: none; }
+  .phase.active { display: block; }
+
+  h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; color: #111; }
+  .subtitle { font-size: 13px; color: #888; margin-bottom: 1.5rem; }
+
+  .card {
+    background: #fff;
+    border: 1px solid #e8e6e0;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .card-label { font-size: 11px; color: #aaa; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+  .card-body { font-size: 14px; line-height: 1.7; color: #333; }
+
+  .suspect-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 1rem; }
+  .suspect-card {
+    background: #fff; border: 1px solid #e8e6e0; border-radius: 10px;
+    padding: 0.75rem 0.5rem; cursor: pointer; text-align: center;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .suspect-card:hover { border-color: #bbb; }
+  .suspect-card.selected { border: 2px solid #3b82f6; background: #eff6ff; }
+  .suspect-card.eliminated { opacity: 0.35; pointer-events: none; }
+  .avatar { font-size: 26px; margin-bottom: 6px; }
+  .s-name { font-size: 13px; font-weight: 600; color: #111; }
+  .s-role { font-size: 11px; color: #888; margin-top: 2px; }
+  .elim-tag { font-size: 10px; color: #ef4444; margin-top: 4px; }
+
+  .chat-area {
+    background: #fff; border: 1px solid #e8e6e0; border-radius: 12px;
+    padding: 1rem; min-height: 180px; max-height: 300px; overflow-y: auto;
+    margin-bottom: 0.75rem;
+  }
+  .msg { margin-bottom: 10px; }
+  .msg-label { font-size: 11px; color: #aaa; margin-bottom: 3px; }
+  .msg-bubble {
+    display: inline-block; padding: 7px 12px; border-radius: 8px;
+    font-size: 14px; line-height: 1.6; max-width: 90%;
+    background: #f1f0ed; color: #222;
+  }
+  .msg.player .msg-bubble { background: #dbeafe; color: #1e3a5f; }
+  .typing-dot { font-size: 13px; color: #aaa; padding: 4px 0; }
+
+  .q-left { font-size: 12px; color: #aaa; margin-bottom: 6px; text-align: right; }
+
+  .input-row { display: flex; gap: 8px; margin-bottom: 0.75rem; }
+  .input-row input {
+    flex: 1; padding: 8px 12px; font-size: 14px;
+    border: 1px solid #e0ddd8; border-radius: 8px; outline: none;
+    background: #fff; color: #111;
+  }
+  .input-row input:focus { border-color: #aaa; }
+  .send-btn {
+    padding: 8px 16px; font-size: 14px; background: #111; color: #fff;
+    border: none; border-radius: 8px; cursor: pointer;
+  }
+  .send-btn:hover { background: #333; }
+
+  .hint-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1rem; }
+  .hint-btn {
+    font-size: 12px; padding: 5px 12px;
+    border: 1px solid #e0ddd8; border-radius: 20px;
+    background: #fff; color: #555; cursor: pointer;
+  }
+  .hint-btn:hover { background: #f1f0ed; }
+
+  .accuse-section { background: #fff; border: 1px solid #fecaca; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1rem; }
+  .accuse-label { font-size: 13px; color: #666; margin-bottom: 10px; }
+  .accuse-btn {
+    width: 100%; padding: 10px; font-size: 14px; font-weight: 600;
+    background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5;
+    border-radius: 8px; cursor: pointer;
+  }
+  .accuse-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .accuse-btn:not(:disabled):hover { background: #fecaca; }
+
+  .result-box { background: #fff; border: 1px solid #e8e6e0; border-radius: 16px; padding: 2rem; text-align: center; margin-bottom: 1rem; }
+  .result-icon { font-size: 52px; margin-bottom: 12px; }
+  .result-title { font-size: 20px; font-weight: 600; margin-bottom: 10px; }
+  .result-truth { font-size: 14px; color: #555; line-height: 1.8; white-space: pre-wrap; }
+
+  .primary-btn {
+    display: block; width: 100%; padding: 11px; font-size: 15px; font-weight: 600;
+    background: #111; color: #fff; border: none; border-radius: 10px; cursor: pointer;
+    margin-bottom: 0.5rem;
+  }
+  .primary-btn:hover { background: #333; }
+
+  .section-label { font-size: 11px; color: #aaa; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 8px; }
+  .accuse-sep { margin-bottom: 10px; }
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- Setup -->
+<div class="phase active" id="phase-setup">
+  <h1>🔍 尋問ゲーム</h1>
+  <p class="subtitle">AIが容疑者を演じます。嘘を見破り、犯人を告発せよ。</p>
+  <div class="card">
+    <div class="card-label">事件の概要</div>
+    <div class="card-body" id="setup-case-body">読み込み中…</div>
+  </div>
+  <div class="section-label">容疑者</div>
+  <div class="suspect-grid" id="setup-suspects"></div>
+  <p style="font-size:13px; color:#888; margin-bottom:1rem; line-height:1.7;">容疑者を選んで尋問してください。最大 <strong>10問</strong> まで質問できます。</p>
+  <button class="primary-btn" onclick="startGame()">ゲームを開始する</button>
+</div>
+
+<!-- Interrogate -->
+<div class="phase" id="phase-interrogate">
+  <div class="card">
+    <div class="card-label" id="int-case-title">事件</div>
+    <div class="card-body" id="int-case-body"></div>
+  </div>
+
+  <div class="section-label">容疑者を選ぶ</div>
+  <div class="suspect-grid" id="int-suspects"></div>
+
+  <div id="chat-container" style="display:none">
+    <div class="section-label" id="int-suspect-label">尋問中：</div>
+    <div class="chat-area" id="chat-area"></div>
+    <div class="q-left" id="q-left"></div>
+    <div class="input-row">
+      <input type="text" id="q-input" placeholder="質問を入力…" maxlength="120" onkeydown="if(event.key==='Enter')sendQ()"/>
+      <button class="send-btn" onclick="sendQ()">送信</button>
+    </div>
+    <div class="hint-row">
+      <button class="hint-btn" onclick="fillHint('アリバイを教えてください')">アリバイ</button>
+      <button class="hint-btn" onclick="fillHint('事件当日、何時にどこにいましたか')">当日の行動</button>
+      <button class="hint-btn" onclick="fillHint('他の容疑者についてどう思いますか')">他者への意見</button>
+      <button class="hint-btn" onclick="fillHint('証拠についてどう説明しますか')">証拠への反応</button>
+      <button class="hint-btn" onclick="fillHint('何か隠していることはありますか')">隠し事</button>
+    </div>
+  </div>
+
+  <div class="accuse-section">
+    <div class="accuse-label">十分に尋問したら、犯人だと思う人を選んで告発する。</div>
+    <div class="accuse-sep">
+      <div class="suspect-grid" id="accuse-suspects"></div>
+    </div>
+    <button class="accuse-btn" id="accuse-btn" disabled onclick="accuse()">この人物を告発する</button>
+  </div>
+</div>
+
+<!-- Result -->
+<div class="phase" id="phase-result">
+  <div class="result-box">
+    <div class="result-icon" id="r-icon"></div>
+    <div class="result-title" id="r-title"></div>
+    <div class="result-truth" id="r-truth"></div>
+  </div>
+  <button class="primary-btn" onclick="resetGame()">もう一度遊ぶ</button>
+</div>
+
+</div>
+<script>
+const CASES = [
+  {
+    title:"美術館の盗難事件",
+    desc:"昨夜、市立美術館から名画「夜の波紋」が盗まれた。警備員が気絶させられており、三人が最後に館内にいたことが確認されている。",
+    evidence:"警備員の傍に落ちていた赤い繊維 / 裏口の泥の足跡（26cm）/ 消えた合鍵",
+    suspects:[
+      {name:"西村 葵",role:"学芸員",emoji:"🧑",alibi:"資料室で一人作業していたと主張するが確認者なし",culprit:true},
+      {name:"田中 修",role:"警備員（非番）",emoji:"👨",alibi:"友人と飲んでいたと言うが連絡が取れない",culprit:false},
+      {name:"森 奈緒",role:"清掃員",emoji:"👩",alibi:"早めに帰宅したと言うが目撃者なし",culprit:false}
+    ],
+    truth:"西村葵が合鍵を使って盗み出した。赤い繊維は彼女のカーディガンのものと一致した。"
+  },
+  {
+    title:"料亭の毒殺未遂",
+    desc:"高級料亭「菊乃間」での会食中、会長が突然倒れた。料理に毒が混入されていた疑いがある。関係者三人が取り調べを受けている。",
+    evidence:"厨房に残された未知の粉末 / 会長宛の脅迫状（三週間前） / 配膳係のポケットから発見された睡眠薬",
+    suspects:[
+      {name:"橋本 隆",role:"料理長",emoji:"👨‍🍳",alibi:"ずっと厨房にいたと主張するが一時不在の目撃あり",culprit:false},
+      {name:"小林 恵",role:"配膳係",emoji:"👩",alibi:"全料理を運んだが「睡眠薬は自分の薬」と説明する",culprit:false},
+      {name:"坂本 浩",role:"支配人",emoji:"🧔",alibi:"会長と個人的な金銭トラブルがあった",culprit:true}
+    ],
+    truth:"坂本浩が料理長を買収して毒を混入させた。会長との金銭トラブルが動機だった。"
+  },
+  {
+    title:"深夜の信号改ざん事件",
+    desc:"深夜の特急列車で信号システムが故意に改ざんされ、急停車事故が発生。乗客に怪我人が出た。保線作業員三人に容疑がかかっている。",
+    evidence:"制御盤に残された工具傷 / 現場付近に捨てられた手袋 / 退職強要を訴える内部告発メール",
+    suspects:[
+      {name:"村上 健",role:"信号技師",emoji:"👨‍💼",alibi:"当夜は自宅にいたと言うが一人暮らしで確認不能",culprit:false},
+      {name:"加藤 里奈",role:"保線係",emoji:"👩‍🔧",alibi:"同僚と残業していたと主張するが同僚は否定している",culprit:true},
+      {name:"伊藤 誠",role:"元運転士",emoji:"👨",alibi:"解雇されたばかりで現場に近い場所にいたことが判明",culprit:false}
+    ],
+    truth:"加藤里奈が退職強要への報復として信号を改ざんした。手袋から彼女の指紋が検出された。"
+  }
+];
+
+let G = {};
+
+function showPhase(id){
+  document.querySelectorAll('.phase').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function buildGrid(containerId, mode){
+  const c = CASES[G.caseIdx];
+  const el = document.getElementById(containerId);
+  el.innerHTML='';
+  c.suspects.forEach((s,i)=>{
+    const d = document.createElement('div');
+    d.className='suspect-card'+(G.eliminated.includes(i)?' eliminated':'');
+    if(mode==='interrogate' && G.currentSuspect===i) d.classList.add('selected');
+    if(mode==='accuse' && G.accuseSuspect===i) d.classList.add('selected');
+    if(mode==='interrogate') d.onclick=()=>selectSuspect(i);
+    if(mode==='accuse') d.onclick=()=>selectAccuse(i);
+    const elTag = G.eliminated.includes(i)?'<div class="elim-tag">除外済み</div>':'';
+    d.innerHTML=`<div class="avatar">${s.emoji}</div><div class="s-name">${s.name}</div><div class="s-role">${s.role}</div>${elTag}`;
+    el.appendChild(d);
+  });
+}
+
+function startGame(){
+  const idx=Math.floor(Math.random()*CASES.length);
+  G={caseIdx:idx, currentSuspect:null, accuseSuspect:null, questionsLeft:10, eliminated:[], chatHistory:[], loading:false};
+  const c=CASES[idx];
+  document.getElementById('int-case-title').textContent=c.title;
+  document.getElementById('int-case-body').textContent=c.desc+'\n【証拠】'+c.evidence;
+  buildGrid('int-suspects','interrogate');
+  buildGrid('accuse-suspects','accuse');
+  updateQLeft();
+  document.getElementById('chat-container').style.display='none';
+  showPhase('phase-interrogate');
+}
+
+function selectSuspect(i){
+  if(G.loading) return;
+  G.currentSuspect=i;
+  G.chatHistory=[];
+  buildGrid('int-suspects','interrogate');
+  const s=CASES[G.caseIdx].suspects[i];
+  document.getElementById('int-suspect-label').textContent='尋問中：'+s.name+'（'+s.role+'）';
+  document.getElementById('chat-container').style.display='block';
+  document.getElementById('chat-area').innerHTML=`<div class="msg"><div class="msg-label">${s.name}</div><div class="msg-bubble">…何かご用でしょうか？</div></div>`;
+  document.getElementById('q-input').focus();
+}
+
+function selectAccuse(i){
+  if(G.eliminated.includes(i)) return;
+  G.accuseSuspect=i;
+  buildGrid('accuse-suspects','accuse');
+  document.getElementById('accuse-btn').disabled=false;
+}
+
+function updateQLeft(){
+  const el=document.getElementById('q-left');
+  if(el) el.textContent='残り質問数：'+G.questionsLeft+' / 10';
+}
+
+function fillHint(t){
+  document.getElementById('q-input').value=t;
+  document.getElementById('q-input').focus();
+}
+
+async function sendQ(){
+  if(G.loading||G.currentSuspect===null) return;
+  if(G.questionsLeft<=0){alert('質問数の上限に達しました。告発してください。');return;}
+  const inp=document.getElementById('q-input');
+  const q=inp.value.trim();
+  if(!q) return;
+  inp.value='';
+
+  const c=CASES[G.caseIdx];
+  const s=c.suspects[G.currentSuspect];
+  G.questionsLeft--;
+  updateQLeft();
+  G.loading=true;
+
+  const ca=document.getElementById('chat-area');
+  ca.innerHTML+=`<div class="msg player"><div class="msg-label">あなた</div><div class="msg-bubble">${q}</div></div>`;
+  ca.innerHTML+=`<div class="typing-dot" id="typing">考え中…</div>`;
+  ca.scrollTop=ca.scrollHeight;
+
+  G.chatHistory.push({role:'user',content:q});
+
+  const sys=`あなたは推理ゲームの容疑者「${s.name}（${s.role}）」です。
+事件：${c.title}。${c.desc}
+証拠：${c.evidence}
+あなたのアリバイ：${s.alibi}
+${s.culprit
+  ? 'あなたが犯人です。疑いをかわすために嘘をついたり話題をそらしたりしてください。ただし会話の中で明らかな矛盾を作ることは避けてください。'
+  : 'あなたは無実です。正直に、しかし自分のアリバイに自信を持って答えてください。'}
+返答は日本語で2〜3文のみ。容疑者らしいリアルな口調で。`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:200,system:sys,messages:G.chatHistory})
+    });
+    const data=await res.json();
+    const reply=data.content?.[0]?.text||'…（沈黙）';
+    G.chatHistory.push({role:'assistant',content:reply});
+    document.getElementById('typing')?.remove();
+    ca.innerHTML+=`<div class="msg"><div class="msg-label">${s.name}</div><div class="msg-bubble">${reply}</div></div>`;
+    ca.scrollTop=ca.scrollHeight;
+  }catch(e){
+    document.getElementById('typing')?.remove();
+    ca.innerHTML+=`<div class="msg"><div class="msg-label">システム</div><div class="msg-bubble">通信エラーが発生しました。</div></div>`;
+  }
+  G.loading=false;
+}
+
+function accuse(){
+  if(G.accuseSuspect===null) return;
+  const c=CASES[G.caseIdx];
+  const s=c.suspects[G.accuseSuspect];
+  const correct=s.culprit;
+  document.getElementById('r-icon').textContent=correct?'🎉':'😞';
+  document.getElementById('r-title').textContent=correct?'正解！犯人を捕まえた！':'不正解…犯人を逃してしまった';
+  document.getElementById('r-truth').textContent=
+    (correct?`見事、${s.name}を告発し、犯行を認めさせました。\n\n`:`${s.name}は無実でした。\n\n`)+
+    '【真相】'+c.truth;
+  showPhase('phase-result');
+}
+
+function resetGame(){
+  const idx=Math.floor(Math.random()*CASES.length);
+  G={caseIdx:idx,loading:false};
+  const c=CASES[idx];
+  document.getElementById('setup-case-body').textContent=c.desc;
+  const el=document.getElementById('setup-suspects');
+  el.innerHTML='';
+  c.suspects.forEach(s=>{
+    const d=document.createElement('div');
+    d.className='suspect-card';
+    d.style.pointerEvents='none';
+    d.innerHTML=`<div class="avatar">${s.emoji}</div><div class="s-name">${s.name}</div><div class="s-role">${s.role}</div>`;
+    el.appendChild(d);
+  });
+  showPhase('phase-setup');
+}
+
+// init
+(function(){
+  const c=CASES[0];
+  document.getElementById('setup-case-body').textContent=c.desc;
+  const el=document.getElementById('setup-suspects');
+  c.suspects.forEach(s=>{
+    const d=document.createElement('div');
+    d.className='suspect-card';
+    d.style.pointerEvents='none';
+    d.innerHTML=`<div class="avatar">${s.emoji}</div><div class="s-name">${s.name}</div><div class="s-role">${s.role}</div>`;
+    el.appendChild(d);
+  });
+})();
+</script>
+</body>
+</html>
